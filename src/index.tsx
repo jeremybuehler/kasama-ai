@@ -126,19 +126,8 @@ try {
 
 // Initialize PWA and offline capabilities
 if (typeof window !== "undefined") {
-  // Register service worker for PWA functionality
-  registerSW({
-    onSuccess: (registration) => {
-      console.log("PWA: App is ready for offline use");
-      // Show offline-ready notification
-      showInstallPrompt();
-    },
-    onUpdate: (registration) => {
-      console.log("PWA: New content available, reload to update");
-      // Show update available notification
-      showUpdateNotification(registration);
-    },
-  });
+  // Service worker registration disabled until sw.js is created
+  console.log("PWA features available - service worker registration skipped");
 
   // Initialize offline manager
   console.log("Initializing offline capabilities...");
