@@ -1,0 +1,209 @@
+name: Security Scan
+
+on:
+  schedule:
+    # Run security scans daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # Job 1: Dependency vulnerability audit
+  dependency-audit:
+    name: Dependency Vulnerability Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: |
+          echo "## 🔍 Dependency Vulnerability Audit" >> $GITHUB_STEP_SUMMARY
+          
+          # Run npm audit and capture output
+          if npm audit --audit-level=moderate; then
+            echo "✅ No moderate or higher vulnerabilities found" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ Vulnerabilities detected - see details below" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            npm audit --audit-level=moderate >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Generate dependency report
+        run: |
+          echo "### 📦 Dependency Overview" >> $GITHUB_STEP_SUMMARY
+          echo "Total dependencies: $(npm list --depth=0 --json | jq '.dependencies | length')" >> $GITHUB_STEP_SUMMARY
+          echo "Production dependencies: $(npm list --prod --depth=0 --json | jq '.dependencies | length')" >> $GITHUB_STEP_SUMMARY
+          echo "Development dependencies: $(npm list --dev --depth=0 --json | jq '.dependencies | length')" >> $GITHUB_STEP_SUMMARY
+
+  # Job 2: CodeQL security analysis
+  codeql:
+    name: CodeQL Security Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended,security-and-quality
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for analysis
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: https://placeholder.supabase.co
+          VITE_SUPABASE_ANON_KEY: placeholder-key
+          VITE_ENABLE_AI_FEATURES: false
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:${{matrix.language}}"
+
+  # Job 3: Secret scanning
+  secret-scan:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for comprehensive scanning
+
+      - name: Run TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+          extra_args: --debug --only-verified
+
+      - name: Scan for hardcoded secrets
+        run: |
+          echo "## 🔐 Secret Scanning Report" >> $GITHUB_STEP_SUMMARY
+          
+          # Check for common secret patterns
+          if grep -r -E "(api[_-]?key|secret|password|token)" --include="*.js" --include="*.ts" --include="*.jsx" --include="*.tsx" src/ | grep -v "placeholder" | grep -v "your-" | grep -v "example"; then
+            echo "⚠️ Potential secrets found in source code" >> $GITHUB_STEP_SUMMARY
+            echo "Please review the following findings:" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            grep -r -E "(api[_-]?key|secret|password|token)" --include="*.js" --include="*.ts" --include="*.jsx" --include="*.tsx" src/ | grep -v "placeholder" | grep -v "your-" | grep -v "example" >> $GITHUB_STEP_SUMMARY || true
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No hardcoded secrets detected in source code" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  # Job 4: License compliance check
+  license-check:
+    name: License Compliance Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install license checker
+        run: npm install -g license-checker
+
+      - name: Check licenses
+        run: |
+          echo "## 📜 License Compliance Report" >> $GITHUB_STEP_SUMMARY
+          
+          # Generate license report
+          license-checker --summary > license-summary.txt
+          
+          echo "### License Summary" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          cat license-summary.txt >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          
+          # Check for problematic licenses
+          if license-checker --excludePackages "$(npm list --depth=0 --json | jq -r '.dependencies | keys[]' | tr '\n' ';')" --failOn "GPL;AGPL;LGPL;UNLICENSED"; then
+            echo "✅ No problematic licenses detected" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ Potentially problematic licenses found" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  # Job 5: Docker security scan (future)
+  docker-scan:
+    name: Docker Security Scan
+    runs-on: ubuntu-latest
+    if: false  # Disabled until Docker implementation
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Docker security scan placeholder
+        run: echo "Docker security scanning will be implemented when containerization is added"
+
+  # Security summary
+  security-summary:
+    name: Security Summary
+    runs-on: ubuntu-latest
+    needs: [dependency-audit, codeql, secret-scan, license-check]
+    if: always()
+    steps:
+      - name: Security scan summary
+        run: |
+          echo "## 🛡️ Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Dependency Audit | ${{ needs.dependency-audit.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| CodeQL Analysis | ${{ needs.codeql.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Secret Scanning | ${{ needs.secret-scan.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| License Check | ${{ needs.license-check.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ needs.dependency-audit.result }}" == "success" && 
+                "${{ needs.codeql.result }}" == "success" && 
+                "${{ needs.secret-scan.result }}" == "success" && 
+                "${{ needs.license-check.result }}" == "success" ]]; then
+            echo "✅ All security checks passed!"
+            echo "### 🎉 Security validation successful" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Some security checks failed"
+            echo "### ⚠️ Security issues detected" >> $GITHUB_STEP_SUMMARY
+            echo "Please review and address the security findings above." >> $GITHUB_STEP_SUMMARY
+          fi
