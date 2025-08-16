@@ -21,7 +21,8 @@ class OfflineManagerService {
    * Initialize offline manager
    */
   initialize() {
-    this.registerServiceWorker();
+    // Service worker registration disabled until sw.js is created
+    console.log("Offline manager initialized - service worker registration skipped");
     this.setupBackgroundSync();
     this.checkPendingSync();
   }
