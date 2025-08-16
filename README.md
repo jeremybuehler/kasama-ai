@@ -2,7 +2,7 @@
   <h1>🌸 Kasama AI</h1>
   <h3>Transform Your Relationships with AI-Powered Personal Growth</h3>
   <p>
-    <strong>Build deeper connections • Master communication • Grow together</strong>
+    <strong>Build deeper connections • Master communication • Grow together * Intentionally</strong>
   </p>
   <p>
     <a href="#features"><img src="https://img.shields.io/badge/Features-💡-ff69b4" alt="Features" /></a>
