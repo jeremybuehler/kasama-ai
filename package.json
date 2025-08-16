@@ -68,7 +68,9 @@
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky install"
+    "prepare": "npm run husky:install",
+    "husky:install": "husky install || echo 'Husky installation skipped in production'",
+    "postinstall": "npm run husky:install"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,css,md}": [
