@@ -1,11 +1,15 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
+  "name": "kasama-ai",
   "buildCommand": "npm run build",
-  "outputDirectory": "build",
+  "outputDirectory": "dist",
   "framework": "vite",
   "installCommand": "npm ci",
   "devCommand": "npm run dev",
   "functions": {},
+  "regions": ["iad1"],
+  "public": false,
   "headers": [
     {
       "source": "/(.*)",
@@ -70,5 +74,17 @@
   ],
   "env": {
     "NODE_ENV": "production"
-  }
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "production",
+      "VITE_APP_ENV": "production"
+    }
+  },
+  "github": {
+    "enabled": true,
+    "autoAlias": true
+  },
+  "trailingSlash": false,
+  "cleanUrls": true
 }
