@@ -1,7 +1,4 @@
 <div align="center">
-  <br />
-  <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="Kasama AI Logo" width="120" height="120" style="border-radius: 20px;" />
-  <br />
   <h1>🌸 Kasama AI</h1>
   <h3>Transform Your Relationships with AI-Powered Personal Growth</h3>
   <p>
@@ -18,7 +15,6 @@
 <br />
 
 <div align="center">
-  <img src="https://images.unsplash.com/photo-1576765607924-3f7b8410a787?w=800" alt="Kasama AI App Screenshot" width="600" style="border-radius: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);" />
 </div>
 
 <br />
