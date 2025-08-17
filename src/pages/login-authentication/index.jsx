@@ -9,7 +9,7 @@ import { Checkbox } from "../../components/ui/Checkbox";
 
 import DemoAccountSection from "./components/DemoAccountSection";
 import SocialAuthButtons from "./components/SocialAuthButtons";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 const LoginAuthentication = () => {
   const navigate = useNavigate();

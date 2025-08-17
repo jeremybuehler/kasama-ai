@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, memo, useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff, Check } from "lucide-react";
 import Button from "../ui/Button";
-import { cn } from "../../utils/cn";
+import { cn, focusRing, transitions } from "../../utils/cn";
 import { useAuth } from "../../hooks/useAuth";
 
 interface SignupFormData {
@@ -23,7 +23,7 @@ interface SignupFormProps {
   className?: string;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({ onSignup, className }) => {
+const SignupForm: React.FC<SignupFormProps> = memo(({ onSignup, className }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signup, signupLoading } = useAuth();
@@ -47,8 +47,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignup, className }) => {
 
   const password = watch("password");
 
-  // Password strength validation
-  const getPasswordStrength = (password: string) => {
+  // Password strength validation - memoized for performance
+  const getPasswordStrength = useCallback((password: string) => {
     let score = 0;
     const checks = {
       length: password.length >= 8,
@@ -63,18 +63,18 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignup, className }) => {
     });
 
     return { score, checks };
-  };
+  }, []);
 
-  const passwordStrength = getPasswordStrength(password || "");
+  const passwordStrength = useMemo(() => getPasswordStrength(password || ""), [getPasswordStrength, password]);
 
-  const getStrengthLabel = (score: number) => {
+  const getStrengthLabel = useCallback((score: number) => {
     if (score < 2) return { label: "Weak", color: "text-destructive" };
     if (score < 4) return { label: "Fair", color: "text-warning" };
     if (score < 5) return { label: "Good", color: "text-primary" };
     return { label: "Strong", color: "text-success" };
-  };
+  }, []);
 
-  const onSubmit = async (data: SignupFormData) => {
+  const onSubmit = useCallback(async (data: SignupFormData) => {
     try {
       if (onSignup) {
         await onSignup(data.email, data.password, { name: data.name });
@@ -98,10 +98,10 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignup, className }) => {
             : "An unexpected error occurred",
       });
     }
-  };
+  }, [onSignup, signup, setError, reset]);
 
   const isLoading = isSubmitting || signupLoading;
-  const strengthInfo = getStrengthLabel(passwordStrength.score);
+  const strengthInfo = useMemo(() => getStrengthLabel(passwordStrength.score), [getStrengthLabel, passwordStrength.score]);
 
   return (
     <div className={cn("w-full max-w-md mx-auto", className)}>
@@ -421,6 +421,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignup, className }) => {
       </form>
     </div>
   );
-};
+});
+
+SignupForm.displayName = 'SignupForm';
 
 export default SignupForm;

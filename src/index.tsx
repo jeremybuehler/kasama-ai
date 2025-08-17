@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./Routes"; // Use the main Routes component
+import App from "./App"; // Use App.tsx with authentication protection
 import "./styles/tailwind.css";
 import "./styles/index.css";
 import { register as registerSW } from "./serviceWorkerRegistration";
@@ -178,19 +178,31 @@ function showUpdateNotification(registration) {
     z-index: 1000;
     max-width: 300px;
   `;
-  notification.innerHTML = `
-    <div style="margin-bottom: 8px; font-weight: 500;">Update Available</div>
-    <div style="font-size: 14px; margin-bottom: 12px;">A new version of Kasama AI is ready!</div>
-    <button onclick="window.location.reload()" style="
-      background: white;
-      color: #059669;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-weight: 500;
-      cursor: pointer;
-    ">Update Now</button>
+  // Create elements safely without innerHTML
+  const title = document.createElement("div");
+  title.textContent = "Update Available";
+  title.style.cssText = "margin-bottom: 8px; font-weight: 500;";
+  
+  const message = document.createElement("div");
+  message.textContent = "A new version of Kasama AI is ready!";
+  message.style.cssText = "font-size: 14px; margin-bottom: 12px;";
+  
+  const button = document.createElement("button");
+  button.textContent = "Update Now";
+  button.style.cssText = `
+    background: white;
+    color: #059669;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
   `;
+  button.addEventListener("click", () => window.location.reload());
+  
+  notification.appendChild(title);
+  notification.appendChild(message);
+  notification.appendChild(button);
 
   document.body.appendChild(notification);
 

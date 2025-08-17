@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, memo, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Mail, ArrowLeft } from "lucide-react";
 import Button from "../ui/Button";
-import { cn } from "../../utils/cn";
+import { cn, focusRing, transitions } from "../../utils/cn";
 import { useAuth } from "../../hooks/useAuth";
 
 interface PasswordResetFormData {
@@ -15,7 +15,7 @@ interface PasswordResetFormProps {
   className?: string;
 }
 
-const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
+const PasswordResetForm: React.FC<PasswordResetFormProps> = memo(({
   onRequestReset,
   className,
 }) => {
@@ -34,7 +34,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
     },
   });
 
-  const onSubmit = async (data: PasswordResetFormData) => {
+  const onSubmit = useCallback(async (data: PasswordResetFormData) => {
     try {
       if (onRequestReset) {
         await onRequestReset(data.email);
@@ -58,9 +58,9 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
             : "An unexpected error occurred",
       });
     }
-  };
+  }, [onRequestReset, resetPassword, setError]);
 
-  const handleResend = async () => {
+  const handleResend = useCallback(async () => {
     const email = getValues("email");
     if (email) {
       try {
@@ -73,7 +73,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
         console.error("Failed to resend reset email:", error);
       }
     }
-  };
+  }, [getValues, onRequestReset, resetPassword]);
 
   const isLoading = isSubmitting || resetPasswordLoading;
 
@@ -190,7 +190,8 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
               className={cn(
                 "w-full px-3 py-2 rounded-md border bg-background text-foreground",
                 "placeholder:text-muted-foreground",
-                "focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent",
+                focusRing,
+                transitions.colors,
                 "disabled:opacity-50 disabled:cursor-not-allowed",
                 errors.email
                   ? "border-destructive focus:ring-destructive"
@@ -255,6 +256,8 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
       </div>
     </div>
   );
-};
+});
+
+PasswordResetForm.displayName = 'PasswordResetForm';
 
 export default PasswordResetForm;

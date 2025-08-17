@@ -1,4 +1,4 @@
-import { supabase } from "../pages/login-authentication/components/supabaseClient";
+import { supabase } from "./supabase";
 import {
   User,
   Assessment,

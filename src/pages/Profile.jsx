@@ -1,6 +1,6 @@
 import React from "react";
 import ProtectedRoute from "../components/ProtectedRoute";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Profile() {
