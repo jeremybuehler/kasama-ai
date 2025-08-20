@@ -2,7 +2,7 @@ import React, { useState, memo, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff, Check, CheckCircle } from "lucide-react";
 import Button from "../ui/Button";
-import { cn, focusRing, transitions } from "../../utils/cn";
+import { cn, focusRing, transitions } from "../../utils/cn.ts";
 import { useAuth } from "../../hooks/useAuth";
 
 interface UpdatePasswordFormData {
