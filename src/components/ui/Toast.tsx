@@ -4,7 +4,7 @@ import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from "lucide-react";
 import { cn } from "../../utils/cn";
 import { cva } from "class-variance-authority";
 import Button from "./Button";
-import { useNotifications, useAppActions } from "../../lib/store";
+import { useNotifications, useRemoveNotification, useAddNotification } from "../../lib/store";
 import { Notification } from "../../lib/types";
 
 const toastVariants = cva(
@@ -157,7 +157,7 @@ const Toast: React.FC<ToastProps> = ({
 // Toast container component
 const ToastContainer: React.FC = () => {
   const notifications = useNotifications();
-  const { removeNotification } = useAppActions();
+  const removeNotification = useRemoveNotification();
 
   const visibleNotifications = notifications.slice(0, 5); // Show max 5 toasts
 
@@ -279,7 +279,8 @@ export const toast = new ToastAPI();
 
 // Hook for using toast
 export function useToast() {
-  const { addNotification, removeNotification } = useAppActions();
+  const addNotification = useAddNotification();
+  const removeNotification = useRemoveNotification();
 
   return {
     success: (title: string, message?: string) => {

@@ -117,21 +117,33 @@ export const usePractices = () => useAppStore((state) => state.practices);
 export const useGoals = () => useAppStore((state) => state.goals);
 export const useProgress = () => useAppStore((state) => state.progress);
 
-// Action hooks
-export const useAppActions = () =>
-  useAppStore((state) => ({
-    setUser: state.setUser,
-    setAuthLoading: state.setAuthLoading,
-    setSidebarOpen: state.setSidebarOpen,
-    setTheme: state.setTheme,
-    addNotification: state.addNotification,
-    removeNotification: state.removeNotification,
-    markNotificationRead: state.markNotificationRead,
-    setAssessments: state.setAssessments,
-    setPractices: state.setPractices,
-    setGoals: state.setGoals,
-    setProgress: state.setProgress,
-  }));
+// Individual action hooks to ensure reference stability
+export const useSetUser = () => useAppStore((state) => state.setUser);
+export const useSetAuthLoading = () => useAppStore((state) => state.setAuthLoading);
+export const useSetSidebarOpen = () => useAppStore((state) => state.setSidebarOpen);
+export const useSetTheme = () => useAppStore((state) => state.setTheme);
+export const useAddNotification = () => useAppStore((state) => state.addNotification);
+export const useRemoveNotification = () => useAppStore((state) => state.removeNotification);
+export const useMarkNotificationRead = () => useAppStore((state) => state.markNotificationRead);
+export const useSetAssessments = () => useAppStore((state) => state.setAssessments);
+export const useSetPractices = () => useAppStore((state) => state.setPractices);
+export const useSetGoals = () => useAppStore((state) => state.setGoals);
+export const useSetProgress = () => useAppStore((state) => state.setProgress);
+
+// Combined actions hook (deprecated - use individual hooks above)
+export const useAppActions = () => ({
+  setUser: useAppStore((state) => state.setUser),
+  setAuthLoading: useAppStore((state) => state.setAuthLoading),
+  setSidebarOpen: useAppStore((state) => state.setSidebarOpen),
+  setTheme: useAppStore((state) => state.setTheme),
+  addNotification: useAppStore((state) => state.addNotification),
+  removeNotification: useAppStore((state) => state.removeNotification),
+  markNotificationRead: useAppStore((state) => state.markNotificationRead),
+  setAssessments: useAppStore((state) => state.setAssessments),
+  setPractices: useAppStore((state) => state.setPractices),
+  setGoals: useAppStore((state) => state.setGoals),
+  setProgress: useAppStore((state) => state.setProgress),
+});
 
 // Subscribe to theme changes
 if (typeof window !== "undefined") {
@@ -155,13 +167,8 @@ if (typeof window !== "undefined") {
   }
 }
 
-// Store devtools (only in development)
-if (process.env.NODE_ENV === "development") {
-  // Enable Zustand devtools
-  useAppStore.subscribe(
-    (state) => state,
-    (state) => {
-      console.log("Zustand State Change:", state);
-    },
-  );
-}
+// Store devtools (disabled to prevent infinite loops)
+// TODO: Re-enable with proper devtools integration
+// if (process.env.NODE_ENV === "development") {
+//   // Enable Zustand devtools
+// }
