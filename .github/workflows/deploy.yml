@@ -127,6 +127,9 @@ jobs:
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
         env:
+          NODE_ENV: production
+          CI: true
+          SKIP_HUSKY: true
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_ENABLE_AI_FEATURES: ${{ needs.pre-deployment.outputs.environment == 'production' && 'true' || 'false' }}

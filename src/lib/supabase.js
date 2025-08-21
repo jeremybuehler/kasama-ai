@@ -11,15 +11,28 @@ const hasValidConfig =
   !supabaseAnonKey.includes('your-anon-key') &&
   supabaseUrl.startsWith('https://');
 
+// Validate environment variables in production
+if (import.meta.env.PROD && !hasValidConfig) {
+  console.error('🚨 Critical: Supabase configuration missing in production');
+  console.error('Environment variables required: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY');
+  console.error('Current VITE_SUPABASE_URL:', supabaseUrl ? 'Set' : 'Missing');
+  console.error('Current VITE_SUPABASE_ANON_KEY:', supabaseAnonKey ? 'Set' : 'Missing');
+}
+
 let supabase;
 
 if (hasValidConfig) {
   // Create real Supabase client with valid configuration
   supabase = createClient(supabaseUrl, supabaseAnonKey);
+  if (import.meta.env.DEV) {
+    console.log('✅ Supabase client initialized successfully');
+  }
 } else {
   // Create mock client for development/demo purposes
-  console.warn('⚠️ Supabase not configured properly. Using mock client for development.');
-  console.warn('To enable authentication, set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
+  if (import.meta.env.DEV) {
+    console.warn('⚠️ Supabase not configured properly. Using mock client for development.');
+    console.warn('To enable authentication, set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
+  }
   
   // Mock Supabase client that returns promises but doesn't actually work
   supabase = {

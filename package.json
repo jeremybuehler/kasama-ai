@@ -62,15 +62,16 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "vite build",
+    "build": "node scripts/validate-env.js && vite build",
+    "build:skip-validation": "vite build",
     "preview": "vite preview --host",
     "serve": "vite preview",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "prepare": "npm run husky:install",
-    "husky:install": "husky install || echo 'Husky installation skipped in production'",
-    "postinstall": "npm run husky:install"
+    "prepare": "node -e \"if(process.env.NODE_ENV !== 'production' && !process.env.SKIP_HUSKY) { try { require('child_process').execSync('husky install', {stdio: 'inherit'}); } catch(e) { console.log('Husky install skipped:', e.message); } }\"",
+    "husky:install": "node -e \"if(process.env.NODE_ENV !== 'production' && !process.env.SKIP_HUSKY) { try { require('child_process').execSync('husky install', {stdio: 'inherit'}); } catch(e) { console.log('Husky install skipped:', e.message); } }\"",
+    "postinstall": "node -e \"if(process.env.NODE_ENV !== 'production' && !process.env.SKIP_HUSKY) { try { require('child_process').execSync('npm run husky:install', {stdio: 'inherit'}); } catch(e) { console.log('Husky install skipped:', e.message); } }\""
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,css,md}": [
@@ -112,6 +113,7 @@
     "eslint-config-prettier": "^10.1.8",
     "husky": "^8.0.0",
     "lint-staged": "^16.1.4",
+    "playwright": "^1.55.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "tailwindcss": "3.4.6",
