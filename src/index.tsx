@@ -182,11 +182,11 @@ function showUpdateNotification(registration) {
   const title = document.createElement("div");
   title.textContent = "Update Available";
   title.style.cssText = "margin-bottom: 8px; font-weight: 500;";
-  
+
   const message = document.createElement("div");
   message.textContent = "A new version of Kasama AI is ready!";
   message.style.cssText = "font-size: 14px; margin-bottom: 12px;";
-  
+
   const button = document.createElement("button");
   button.textContent = "Update Now";
   button.style.cssText = `
@@ -199,7 +199,7 @@ function showUpdateNotification(registration) {
     cursor: pointer;
   `;
   button.addEventListener("click", () => window.location.reload());
-  
+
   notification.appendChild(title);
   notification.appendChild(message);
   notification.appendChild(button);

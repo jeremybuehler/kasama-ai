@@ -119,13 +119,19 @@ export const useProgress = () => useAppStore((state) => state.progress);
 
 // Individual action hooks to ensure reference stability
 export const useSetUser = () => useAppStore((state) => state.setUser);
-export const useSetAuthLoading = () => useAppStore((state) => state.setAuthLoading);
-export const useSetSidebarOpen = () => useAppStore((state) => state.setSidebarOpen);
+export const useSetAuthLoading = () =>
+  useAppStore((state) => state.setAuthLoading);
+export const useSetSidebarOpen = () =>
+  useAppStore((state) => state.setSidebarOpen);
 export const useSetTheme = () => useAppStore((state) => state.setTheme);
-export const useAddNotification = () => useAppStore((state) => state.addNotification);
-export const useRemoveNotification = () => useAppStore((state) => state.removeNotification);
-export const useMarkNotificationRead = () => useAppStore((state) => state.markNotificationRead);
-export const useSetAssessments = () => useAppStore((state) => state.setAssessments);
+export const useAddNotification = () =>
+  useAppStore((state) => state.addNotification);
+export const useRemoveNotification = () =>
+  useAppStore((state) => state.removeNotification);
+export const useMarkNotificationRead = () =>
+  useAppStore((state) => state.markNotificationRead);
+export const useSetAssessments = () =>
+  useAppStore((state) => state.setAssessments);
 export const useSetPractices = () => useAppStore((state) => state.setPractices);
 export const useSetGoals = () => useAppStore((state) => state.setGoals);
 export const useSetProgress = () => useAppStore((state) => state.setProgress);

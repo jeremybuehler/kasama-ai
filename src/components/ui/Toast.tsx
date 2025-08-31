@@ -4,7 +4,11 @@ import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from "lucide-react";
 import { cn } from "../../utils/cn";
 import { cva } from "class-variance-authority";
 import Button from "./Button";
-import { useNotifications, useRemoveNotification, useAddNotification } from "../../lib/store";
+import {
+  useNotifications,
+  useRemoveNotification,
+  useAddNotification,
+} from "../../lib/store";
 import { Notification } from "../../lib/types";
 
 const toastVariants = cva(

@@ -13,7 +13,10 @@ const isLocalhost = Boolean(
 
 export function register(config) {
   if ("serviceWorker" in navigator) {
-    const publicUrl = new URL(import.meta.env.BASE_URL || "/", window.location.href);
+    const publicUrl = new URL(
+      import.meta.env.BASE_URL || "/",
+      window.location.href,
+    );
     if (publicUrl.origin !== window.location.origin) {
       return;
     }
