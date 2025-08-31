@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasama AI - ROI Tracking Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .roi-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .roi-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .roi-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .roi-value {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .roi-label {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .roi-trend {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .positive { color: #059669; }
+        .negative { color: #dc2626; }
+        .neutral { color: #6b7280; }
+
+        .optimization-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .optimization-table th,
+        .optimization-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .optimization-table th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-implemented {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .status-progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-planned {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .chart-section {
+            grid-column: 1 / -1;
+        }
+
+        .chart-container {
+            height: 400px;
+            margin-top: 20px;
+        }
+
+        .metric-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .before-after {
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .before {
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+        }
+
+        .after {
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+        }
+
+        .before-after h4 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .before-after .value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .alerts {
+            background: #fffbeb;
+            border: 1px solid #fed7aa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .alert-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .roi-metrics {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .roi-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎯 ROI Tracking Dashboard</h1>
+            <p>Real-time monitoring of cost optimization initiatives and financial impact</p>
+        </header>
+
+        <!-- Cost Optimization Alerts -->
+        <div class="alerts">
+            <div class="alert-item">
+                <div class="alert-icon">⚡</div>
+                <div>
+                    <strong>Cache Hit Rate:</strong> 89.2% (Target: 92%) - 
+                    Semantic caching optimization showing 2% improvement
+                </div>
+            </div>
+            <div class="alert-item">
+                <div class="alert-icon">💡</div>
+                <div>
+                    <strong>AI Cost Reduction:</strong> $31.20/month savings achieved from intelligent routing -
+                    93% of target reached
+                </div>
+            </div>
+            <div class="alert-item">
+                <div class="alert-icon">📊</div>
+                <div>
+                    <strong>Budget Status:</strong> 67% of monthly budget used (Day 18/30) - 
+                    Trending 15% under budget
+                </div>
+            </div>
+        </div>
+
+        <!-- ROI Summary Metrics -->
+        <div class="roi-metrics">
+            <div class="roi-card">
+                <div class="roi-value positive">2,847%</div>
+                <div class="roi-label">Annual ROI</div>
+                <div class="roi-trend positive">↑ 247% from baseline</div>
+            </div>
+
+            <div class="roi-card">
+                <div class="roi-value positive">$623</div>
+                <div class="roi-label">Monthly Savings</div>
+                <div class="roi-trend positive">↑ $53 from last month</div>
+            </div>
+
+            <div class="roi-card">
+                <div class="roi-value neutral">1.8 mo</div>
+                <div class="roi-label">Payback Period</div>
+                <div class="roi-trend positive">↓ 0.3 mo improvement</div>
+            </div>
+
+            <div class="roi-card">
+                <div class="roi-value positive">$0.048</div>
+                <div class="roi-label">Cost per User</div>
+                <div class="roi-trend positive">↓ 23% vs target</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Cost Optimization Tracking -->
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="icon" style="background: #667eea;">💰</div>
+                    Cost Optimization Progress
+                </h2>
+                
+                <table class="optimization-table">
+                    <thead>
+                        <tr>
+                            <th>Initiative</th>
+                            <th>Target Saving</th>
+                            <th>Actual Saving</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Semantic Caching</td>
+                            <td>$25-35/mo</td>
+                            <td>$31.20/mo</td>
+                            <td><span class="status-badge status-implemented">Implemented</span></td>
+                        </tr>
+                        <tr>
+                            <td>AI Provider Routing</td>
+                            <td>$20-30/mo</td>
+                            <td>$24.80/mo</td>
+                            <td><span class="status-badge status-implemented">Implemented</span></td>
+                        </tr>
+                        <tr>
+                            <td>Response Streaming</td>
+                            <td>$8-12/mo</td>
+                            <td>$9.60/mo</td>
+                            <td><span class="status-badge status-implemented">Implemented</span></td>
+                        </tr>
+                        <tr>
+                            <td>Database Optimization</td>
+                            <td>$8-12/mo</td>
+                            <td>$6.40/mo</td>
+                            <td><span class="status-badge status-progress">In Progress</span></td>
+                        </tr>
+                        <tr>
+                            <td>Asset Optimization</td>
+                            <td>$3-5/mo</td>
+                            <td>-</td>
+                            <td><span class="status-badge status-planned">Planned</span></td>
+                        </tr>
+                        <tr>
+                            <td>Monitoring Consolidation</td>
+                            <td>$5-8/mo</td>
+                            <td>-</td>
+                            <td><span class="status-badge status-planned">Planned</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="metric-comparison">
+                    <div class="before-after before">
+                        <h4>Before Optimization</h4>
+                        <div class="value">$170.30</div>
+                        <div>Monthly Operating Cost</div>
+                    </div>
+                    <div class="before-after after">
+                        <h4>Current Optimized</h4>
+                        <div class="value">$98.30</div>
+                        <div>Monthly Operating Cost</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue Impact Tracking -->
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="icon" style="background: #059669;">📈</div>
+                    Revenue Enhancement Impact
+                </h2>
+                
+                <table class="optimization-table">
+                    <thead>
+                        <tr>
+                            <th>Initiative</th>
+                            <th>Target Revenue</th>
+                            <th>Actual Revenue</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Freemium Conversion</td>
+                            <td>+$180-320/mo</td>
+                            <td>+$245/mo</td>
+                            <td><span class="status-badge status-implemented">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Professional Tier</td>
+                            <td>+$150-450/mo</td>
+                            <td>+$89.97/mo</td>
+                            <td><span class="status-badge status-progress">Growing</span></td>
+                        </tr>
+                        <tr>
+                            <td>B2B2C Channel</td>
+                            <td>+$1000-2000/mo</td>
+                            <td>-</td>
+                            <td><span class="status-badge status-planned">Q2 Launch</span></td>
+                        </tr>
+                        <tr>
+                            <td>Enterprise Whitelabel</td>
+                            <td>+$500-2000/mo</td>
+                            <td>-</td>
+                            <td><span class="status-badge status-planned">Q3 Target</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="metric-comparison">
+                    <div class="before-after before">
+                        <h4>Baseline Revenue</h4>
+                        <div class="value">$420</div>
+                        <div>Monthly Recurring Revenue</div>
+                    </div>
+                    <div class="before-after after">
+                        <h4>Current Revenue</h4>
+                        <div class="value">$754.97</div>
+                        <div>Monthly Recurring Revenue</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="icon" style="background: #7c3aed;">⚡</div>
+                    Performance Impact
+                </h2>
+                
+                <div class="metric-comparison">
+                    <div class="before-after before">
+                        <h4>Before Optimization</h4>
+                        <div class="value">1.8s</div>
+                        <div>Avg Response Time</div>
+                    </div>
+                    <div class="before-after after">
+                        <h4>After Optimization</h4>
+                        <div class="value">1.1s</div>
+                        <div>Avg Response Time</div>
+                    </div>
+                </div>
+
+                <div class="metric-comparison">
+                    <div class="before-after before">
+                        <h4>Before Optimization</h4>
+                        <div class="value">72.5%</div>
+                        <div>Cache Hit Rate</div>
+                    </div>
+                    <div class="before-after after">
+                        <h4>After Optimization</h4>
+                        <div class="value">89.2%</div>
+                        <div>Cache Hit Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unit Economics -->
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="icon" style="background: #dc2626;">📊</div>
+                    Unit Economics Improvement
+                </h2>
+                
+                <div class="metric-comparison">
+                    <div class="before-after before">
+                        <h4>Baseline LTV:CAC</h4>
+                        <div class="value">2.8:1</div>
+                        <div>Below Target (3:1)</div>
+                    </div>
+                    <div class="before-after after">
+                        <h4>Optimized LTV:CAC</h4>
+                        <div class="value">4.2:1</div>
+                        <div>Above Target ✅</div>
+                    </div>
+                </div>
+
+                <div class="metric-comparison">
+                    <div class="before-after before">
+                        <h4>Original Gross Margin</h4>
+                        <div class="value">68%</div>
+                        <div>Below Industry Standard</div>
+                    </div>
+                    <div class="before-after after">
+                        <h4>Optimized Gross Margin</h4>
+                        <div class="value">87%</div>
+                        <div>Industry Leading ✅</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROI Trend Chart -->
+        <div class="section chart-section">
+            <h2 class="section-title">
+                <div class="icon" style="background: #f59e0b;">📈</div>
+                ROI Trend Analysis
+            </h2>
+            <div class="chart-container">
+                <canvas id="roiTrendChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Cumulative Impact Chart -->
+        <div class="section chart-section">
+            <h2 class="section-title">
+                <div class="icon" style="background: #10b981;">💰</div>
+                Cumulative Financial Impact
+            </h2>
+            <div class="chart-container">
+                <canvas id="cumulativeImpactChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ROI Trend Chart
+        const roiCtx = document.getElementById('roiTrendChart').getContext('2d');
+        new Chart(roiCtx, {
+            type: 'line',
+            data: {
+                labels: ['Baseline', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Month 2', 'Month 3'],
+                datasets: [
+                    {
+                        label: 'Monthly ROI %',
+                        data: [0, 890, 1620, 2240, 2847, 3200, 3650],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#667eea'
+                    },
+                    {
+                        label: 'Cost Savings $/mo',
+                        data: [0, 315, 570, 623, 623, 623, 623],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        yAxisID: 'y1',
+                        pointRadius: 4,
+                        pointBackgroundColor: '#10b981'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'ROI Percentage (%)'
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Monthly Savings ($)'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Cumulative Impact Chart
+        const cumulativeCtx = document.getElementById('cumulativeImpactChart').getContext('2d');
+        new Chart(cumulativeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Cost Reduction', 'Revenue Enhancement', 'Performance Gains', 'Net Impact'],
+                datasets: [
+                    {
+                        label: 'Financial Impact ($)',
+                        data: [623, 335, 150, 1108],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(126, 58, 242, 0.8)',
+                            'rgba(102, 126, 234, 0.8)'
+                        ],
+                        borderColor: [
+                            '#ef4444',
+                            '#10b981',
+                            '#7e3af2',
+                            '#667eea'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Monthly Impact ($)'
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

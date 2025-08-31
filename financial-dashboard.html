@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasama AI - Financial Dashboard & Cost Optimization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .metric-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .metric-change {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .positive { color: #22c55e; }
+        .negative { color: #ef4444; }
+        .neutral { color: #6b7280; }
+
+        .charts-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .optimization-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .recommendation-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .rec-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .rec-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .high-impact { background-color: #ef4444; }
+        .medium-impact { background-color: #f59e0b; }
+        .low-impact { background-color: #10b981; }
+
+        .rec-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .rec-description {
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .rec-impact {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .cost-breakdown {
+            margin-top: 20px;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .cost-item:last-child {
+            border-bottom: none;
+        }
+
+        .cost-category {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .cost-amount {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .recommendations {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Kasama AI Financial Dashboard</h1>
+            <p>Real-time cost analysis, ROI tracking, and optimization recommendations for AI-powered relationship platform</p>
+        </header>
+
+        <!-- Key Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Monthly AI Costs</div>
+                <div class="metric-value" style="color: #667eea;">$84.50</div>
+                <div class="metric-change negative">↑ 15% from last month</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 42%"></div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Cost Per User (AI)</div>
+                <div class="metric-value" style="color: #10b981;">$0.062</div>
+                <div class="metric-change positive">↓ 22% (Target: <$0.08)</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 78%"></div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Cache Hit Rate</div>
+                <div class="metric-value" style="color: #22c55e;">87.3%</div>
+                <div class="metric-change positive">↑ 12% (Target: >85%)</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 87%"></div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Infrastructure Costs</div>
+                <div class="metric-value" style="color: #f59e0b;">$156.80</div>
+                <div class="metric-change neutral">→ 3% vs last month</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 52%"></div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">LTV:CAC Ratio</div>
+                <div class="metric-value" style="color: #667eea;">3.4:1</div>
+                <div class="metric-change positive">↑ 8% (Target: >3:1)</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 68%"></div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Monthly Runway</div>
+                <div class="metric-value" style="color: #22c55e;">18.2 mo</div>
+                <div class="metric-change positive">↑ 2.1 months</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 91%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-section">
+            <div class="chart-card">
+                <h3 class="chart-title">Cost Breakdown by Category</h3>
+                <canvas id="costBreakdownChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h3 class="chart-title">AI Cost Optimization Over Time</h3>
+                <canvas id="optimizationChart"></canvas>
+            </div>
+        </div>
+
+        <div class="charts-section">
+            <div class="chart-card">
+                <h3 class="chart-title">Revenue Growth Projection</h3>
+                <canvas id="revenueChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h3 class="chart-title">Unit Economics Trend</h3>
+                <canvas id="unitEconomicsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Cost Breakdown Details -->
+        <div class="optimization-section">
+            <h2 class="chart-title">Monthly Cost Analysis</h2>
+            <div class="cost-breakdown">
+                <div class="cost-item">
+                    <span class="cost-category">🧠 AI Services (Claude + OpenAI)</span>
+                    <span class="cost-amount">$84.50</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">🛢️ Supabase (Database + Auth)</span>
+                    <span class="cost-amount">$25.00</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">🚀 Vercel (Hosting + Edge Functions)</span>
+                    <span class="cost-amount">$20.00</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">📊 Analytics & Monitoring</span>
+                    <span class="cost-amount">$15.00</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">🔐 Security & Compliance</span>
+                    <span class="cost-amount">$12.50</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">📧 Communication (Email/SMS)</span>
+                    <span class="cost-amount">$8.30</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">🎨 Design & Assets</span>
+                    <span class="cost-amount">$5.00</span>
+                </div>
+                <div class="cost-item" style="border-top: 2px solid #667eea; font-weight: bold;">
+                    <span class="cost-category">💰 Total Monthly OpEx</span>
+                    <span class="cost-amount">$170.30</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Optimization Recommendations -->
+        <div class="optimization-section">
+            <h2 class="chart-title">Cost Optimization Recommendations</h2>
+            <div class="recommendations">
+                <div class="recommendation-card">
+                    <div class="rec-header">
+                        <div class="rec-icon high-impact">1</div>
+                        <div class="rec-title">Implement Semantic Caching</div>
+                    </div>
+                    <div class="rec-description">
+                        Upgrade from basic caching to semantic similarity matching for AI responses. 
+                        Current hit rate: 87.3%. Target: 92%+
+                    </div>
+                    <div class="rec-impact high-impact">Potential Savings: $25-35/month</div>
+                </div>
+
+                <div class="recommendation-card">
+                    <div class="rec-header">
+                        <div class="rec-icon high-impact">2</div>
+                        <div class="rec-title">Optimize AI Provider Routing</div>
+                    </div>
+                    <div class="rec-description">
+                        Route simple queries to GPT-3.5-turbo ($1.5/1M tokens) vs Claude ($3/1M). 
+                        Implement task complexity classification.
+                    </div>
+                    <div class="rec-impact high-impact">Potential Savings: $20-30/month</div>
+                </div>
+
+                <div class="recommendation-card">
+                    <div class="rec-header">
+                        <div class="rec-icon medium-impact">3</div>
+                        <div class="rec-title">Database Query Optimization</div>
+                    </div>
+                    <div class="rec-description">
+                        Implement connection pooling, query caching, and batch operations. 
+                        Current Supabase usage can be reduced by 30-40%.
+                    </div>
+                    <div class="rec-impact medium-impact">Potential Savings: $8-12/month</div>
+                </div>
+
+                <div class="recommendation-card">
+                    <div class="rec-header">
+                        <div class="rec-icon medium-impact">4</div>
+                        <div class="rev-title">Implement User Tier Pricing</div>
+                    </div>
+                    <div class="rec-description">
+                        Free users get basic AI (3-5 interactions/day), Premium gets unlimited. 
+                        Reduces AI costs while driving conversion.
+                    </div>
+                    <div class="rec-impact medium-impact">Revenue Impact: +$150-250/month</div>
+                </div>
+
+                <div class="recommendation-card">
+                    <div class="rec-header">
+                        <div class="rec-icon low-impact">5</div>
+                        <div class="rec-title">CDN & Asset Optimization</div>
+                    </div>
+                    <div class="rec-description">
+                        Implement image compression, lazy loading, and edge caching. 
+                        Reduce bandwidth costs by 20-25%.
+                    </div>
+                    <div class="rec-impact low-impact">Potential Savings: $4-6/month</div>
+                </div>
+
+                <div class="recommendation-card">
+                    <div class="rec-header">
+                        <div class="rec-icon low-impact">6</div>
+                        <div class="rec-title">Monitoring Cost Optimization</div>
+                    </div>
+                    <div class="rec-description">
+                        Consolidate monitoring tools, reduce log retention, optimize alert frequency. 
+                        Focus on essential metrics only.
+                    </div>
+                    <div class="rec-impact low-impact">Potential Savings: $3-5/month</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cost Breakdown Chart
+        const ctx1 = document.getElementById('costBreakdownChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+                labels: ['AI Services', 'Supabase', 'Vercel', 'Analytics', 'Security', 'Other'],
+                datasets: [{
+                    data: [84.50, 25.00, 20.00, 15.00, 12.50, 13.30],
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#f5576c',
+                        '#4facfe',
+                        '#43e97b'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+
+        // AI Cost Optimization Chart
+        const ctx2 = document.getElementById('optimizationChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [
+                    {
+                        label: 'AI Cost/User',
+                        data: [0.12, 0.11, 0.095, 0.085, 0.078, 0.062],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Cache Hit Rate',
+                        data: [65, 70, 75, 82, 85, 87.3],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Cost per User ($)'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Cache Hit Rate (%)'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    }
+                }
+            }
+        });
+
+        // Revenue Growth Projection Chart
+        const ctx3 = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'Monthly Revenue',
+                        data: [0, 150, 420, 850, 1340, 2100, 3200, 4800, 6900, 9500, 12800, 16500],
+                        borderColor: '#22c55e',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Operating Costs',
+                        data: [170, 185, 210, 245, 290, 340, 420, 520, 640, 780, 950, 1150],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Amount ($)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Unit Economics Chart
+        const ctx4 = document.getElementById('unitEconomicsChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['Free Users', 'Premium Users', 'Enterprise'],
+                datasets: [
+                    {
+                        label: 'Customer Lifetime Value',
+                        data: [0, 180, 850],
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)'
+                    },
+                    {
+                        label: 'Customer Acquisition Cost',
+                        data: [12, 45, 220],
+                        backgroundColor: 'rgba(239, 68, 68, 0.8)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Value ($)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

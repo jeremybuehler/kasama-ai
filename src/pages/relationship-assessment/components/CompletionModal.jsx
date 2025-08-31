@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../../components/AppIcon";
 import Button from "../../../components/ui/Button";
+import ConfettiCelebration, { FloatingHearts, SparkleEffect } from "../../../components/ui/ConfettiCelebration";
 
 const CompletionModal = ({ isOpen, onClose, assessmentResults }) => {
   const navigate = useNavigate();
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [showHearts, setShowHearts] = useState(false);
+  const [celebrationComplete, setCelebrationComplete] = useState(false);
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -16,6 +20,21 @@ const CompletionModal = ({ isOpen, onClose, assessmentResults }) => {
     if (isOpen) {
       document.addEventListener("keydown", handleEscape);
       document.body.style.overflow = "hidden";
+      
+      // Trigger celebration after modal opens
+      const celebrationTimer = setTimeout(() => {
+        setShowCelebration(true);
+      }, 300);
+      
+      // Trigger hearts after confetti
+      const heartsTimer = setTimeout(() => {
+        setShowHearts(true);
+      }, 1500);
+      
+      return () => {
+        clearTimeout(celebrationTimer);
+        clearTimeout(heartsTimer);
+      };
     }
 
     return () => {
@@ -37,22 +56,31 @@ const CompletionModal = ({ isOpen, onClose, assessmentResults }) => {
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-      onClick={handleBackdropClick}
-    >
-      <div className="bg-card rounded-xl shadow-large max-w-md w-full animate-fade-in">
+    <>
+      <ConfettiCelebration 
+        trigger={showCelebration} 
+        particleCount={75}
+        onComplete={() => setCelebrationComplete(true)}
+      />
+      <FloatingHearts trigger={showHearts} count={12} />
+      <div
+        className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+        onClick={handleBackdropClick}
+      >
+      <div className="bg-card rounded-xl shadow-large max-w-md w-full animate-scale-in">
         {/* Celebration Header */}
         <div className="text-center p-6 border-b border-border">
-          <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
-            <Icon name="Check" size={32} className="text-white" />
-          </div>
-          <h2 className="text-xl font-semibold text-foreground mb-2">
-            Assessment Complete!
+          <SparkleEffect trigger={showCelebration}>
+            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-celebration-bounce shadow-lg">
+              <Icon name="Check" size={32} className="text-white" />
+            </div>
+          </SparkleEffect>
+          <h2 className="text-xl font-semibold text-foreground mb-2 animate-slide-up">
+            🎉 Assessment Complete! 🎉
           </h2>
-          <p className="text-muted-foreground text-sm">
-            Thank you for taking the time to complete your relationship
-            assessment. Your journey to deeper connections begins now.
+          <p className="text-muted-foreground text-sm animate-slide-up">
+            Amazing work! You've taken a powerful step toward deeper, more meaningful relationships. 
+            Your personalized insights are ready! ✨
           </p>
         </div>
 
@@ -61,18 +89,18 @@ const CompletionModal = ({ isOpen, onClose, assessmentResults }) => {
           {/* Score Display */}
           {assessmentResults?.score && (
             <div className="text-center">
-              <div className="w-20 h-20 rounded-full border-4 border-primary flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl font-bold text-primary">
+              <div className="w-20 h-20 rounded-full border-4 border-primary flex items-center justify-center mx-auto mb-3 animate-glow-pulse bg-primary/5">
+                <span className="text-2xl font-bold text-primary animate-celebration-bounce">
                   {assessmentResults.score}
                 </span>
               </div>
-              <h3 className="font-semibold text-foreground mb-1">
+              <h3 className="font-semibold text-foreground mb-1 animate-slide-up">
                 {assessmentResults.shareableResults?.readinessLevel ||
                   "Relationship Readiness Score"}
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground animate-slide-up">
                 {assessmentResults.shareableResults?.message ||
-                  "Your personalized insights are ready!"}
+                  "Your personalized insights are ready! Time to shine! ⭐"}
               </p>
             </div>
           )}
@@ -182,8 +210,9 @@ const CompletionModal = ({ isOpen, onClose, assessmentResults }) => {
             onClick={handleViewDashboard}
             iconName="ArrowRight"
             iconPosition="right"
+            className="animate-glow-pulse hover:animate-celebration-bounce"
           >
-            View My Dashboard
+            🚀 View My Dashboard
           </Button>
           <Button variant="outline" fullWidth onClick={onClose}>
             Close
@@ -191,6 +220,7 @@ const CompletionModal = ({ isOpen, onClose, assessmentResults }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

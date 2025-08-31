@@ -69,9 +69,26 @@
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest --watch",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:performance": "npm run test:e2e -- --grep=\"@performance\"",
+    "test:all": "npm run test:run && npm run test:e2e",
     "prepare": "node -e \"if(process.env.NODE_ENV !== 'production' && !process.env.SKIP_HUSKY) { try { require('child_process').execSync('husky install', {stdio: 'inherit'}); } catch(e) { console.log('Husky install skipped:', e.message); } }\"",
     "husky:install": "node -e \"if(process.env.NODE_ENV !== 'production' && !process.env.SKIP_HUSKY) { try { require('child_process').execSync('husky install', {stdio: 'inherit'}); } catch(e) { console.log('Husky install skipped:', e.message); } }\"",
-    "postinstall": "node -e \"if(process.env.NODE_ENV !== 'production' && !process.env.SKIP_HUSKY) { try { require('child_process').execSync('npm run husky:install', {stdio: 'inherit'}); } catch(e) { console.log('Husky install skipped:', e.message); } }\""
+    "postinstall": "node -e \"if(process.env.NODE_ENV !== 'production' && !process.env.SKIP_HUSKY) { try { require('child_process').execSync('npm run husky:install', {stdio: 'inherit'}); } catch(e) { console.log('Husky install skipped:', e.message); } }\"",
+    "launch:validate": "node scripts/deployment-validator.js",
+    "launch:health": "node scripts/production-health-check.js",
+    "launch:monitor-setup": "node scripts/monitoring-setup.js",
+    "launch:rollback": "node scripts/rollback-strategy.js",
+    "launch:full-validation": "npm run launch:validate && npm run typecheck && npm run lint && npm run build",
+    "launch:production": "node scripts/production-launch.js",
+    "launch:production-safe": "node scripts/production-launch.js --auto-rollback"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,css,md}": [
@@ -98,6 +115,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/line-clamp": "^0.1.0",
@@ -107,11 +125,16 @@
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^2.1.0",
+    "@vitest/ui": "^2.1.0",
     "autoprefixer": "10.4.2",
+    "axe-core": "^4.10.2",
+    "axe-playwright": "^2.0.1",
     "cross-env": "^10.0.0",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^8.0.0",
+    "jsdom": "^25.0.1",
     "lint-staged": "^16.1.4",
     "playwright": "^1.55.0",
     "postcss": "^8.5.6",
@@ -119,6 +142,7 @@
     "tailwindcss": "3.4.6",
     "typescript": "^5.9.2",
     "vite": "^5.4.19",
-    "vite-tsconfig-paths": "3.6.0"
+    "vite-tsconfig-paths": "3.6.0",
+    "vitest": "^2.1.0"
   }
 }

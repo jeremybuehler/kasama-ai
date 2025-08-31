@@ -1,0 +1,152 @@
+{
+  "timestamp": "2025-08-31T15:02:34.668Z",
+  "summary": {
+    "totalChecks": 25,
+    "passedChecks": 25,
+    "errorCount": 2,
+    "warningCount": 1,
+    "successRate": "100.0%"
+  },
+  "results": {
+    "infrastructure": [
+      {
+        "check": "Package.json exists",
+        "status": "pass",
+        "message": "Project: kasama v0.1.0"
+      },
+      {
+        "check": "Vercel CLI authenticated",
+        "status": "pass",
+        "message": "User: jeremybuehler"
+      },
+      {
+        "check": "GitHub CLI authenticated",
+        "status": "pass",
+        "message": "Ready for repository operations"
+      }
+    ],
+    "security": [
+      {
+        "check": ".github/workflows/deploy.yml: Secrets properly referenced",
+        "status": "pass",
+        "message": "Security best practice implemented"
+      },
+      {
+        "check": ".github/workflows/deploy.yml: Dependency vulnerability scanning",
+        "status": "pass",
+        "message": "Security best practice implemented"
+      },
+      {
+        "check": ".github/workflows/security.yml: Workflow permissions defined",
+        "status": "pass",
+        "message": "Security best practice implemented"
+      },
+      {
+        "check": ".github/workflows/security.yml: Dependency vulnerability scanning",
+        "status": "pass",
+        "message": "Security best practice implemented"
+      },
+      {
+        "check": "Documentation: SECURITY_DEPLOYMENT_GUIDE.md",
+        "status": "pass",
+        "message": "Security documentation available"
+      },
+      {
+        "check": "Documentation: SECURITY_RUNBOOK.md",
+        "status": "pass",
+        "message": "Security documentation available"
+      },
+      {
+        "check": "Documentation: DEPLOYMENT_CONFIGURATION.md",
+        "status": "pass",
+        "message": "Security documentation available"
+      },
+      {
+        "check": "Environment variables documented",
+        "status": "pass",
+        "message": "All required variables documented in .env.example"
+      },
+      {
+        "check": "Vercel security headers configured",
+        "status": "pass",
+        "message": "Security headers properly configured in vercel.json"
+      }
+    ],
+    "deployment": [
+      {
+        "check": "Security pre-flight checks",
+        "status": "pass",
+        "message": "Deployment pipeline stage implemented"
+      },
+      {
+        "check": "Pre-deployment validation",
+        "status": "pass",
+        "message": "Deployment pipeline stage implemented"
+      },
+      {
+        "check": "Production approval gate",
+        "status": "pass",
+        "message": "Deployment pipeline stage implemented"
+      },
+      {
+        "check": "Post-deployment health checks",
+        "status": "pass",
+        "message": "Deployment pipeline stage implemented"
+      },
+      {
+        "check": "Automatic rollback capability",
+        "status": "pass",
+        "message": "Deployment pipeline stage implemented"
+      },
+      {
+        "check": "Environment protection",
+        "status": "pass",
+        "message": "Deployment pipeline stage implemented"
+      },
+      {
+        "check": "Production build",
+        "status": "pass",
+        "message": "Application builds successfully for production"
+      },
+      {
+        "check": "Build artifacts",
+        "status": "pass",
+        "message": "Build artifacts generated successfully"
+      }
+    ],
+    "monitoring": [
+      {
+        "check": "Production application health",
+        "status": "pass",
+        "message": "Response time: 366ms, Status: 200"
+      },
+      {
+        "check": "Monitoring script: production-health-check.js",
+        "status": "pass",
+        "message": "Monitoring automation available"
+      },
+      {
+        "check": "Monitoring script: monitoring-setup.js",
+        "status": "pass",
+        "message": "Monitoring automation available"
+      },
+      {
+        "check": "Monitoring script: deployment-validator.js",
+        "status": "pass",
+        "message": "Monitoring automation available"
+      },
+      {
+        "check": "Error tracking configured",
+        "status": "pass",
+        "message": "Sentry error tracking available"
+      }
+    ]
+  },
+  "errors": [
+    "Kasama AI project not found on Vercel",
+    "TypeScript compilation failed"
+  ],
+  "warnings": [
+    "ESLint warnings or errors found"
+  ]
+}

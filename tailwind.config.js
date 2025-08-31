@@ -85,6 +85,17 @@ export default {
         "gentle-bounce": "gentle-bounce 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
         "slide-in": "slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
         "fade-in": "fade-in 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+        "celebration-bounce": "celebration-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+        "heart-beat": "heart-beat 1s ease-in-out infinite",
+        "wiggle": "wiggle 0.5s ease-in-out",
+        "float": "float 3s ease-in-out infinite",
+        "shimmer": "shimmer 2s linear infinite",
+        "confetti-fall": "confetti-fall 3s ease-out forwards",
+        "scale-in": "scale-in 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "slide-up": "slide-up 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+        "progress-fill": "progress-fill 1s cubic-bezier(0.4, 0, 0.2, 1)",
+        "typing": "typing 1.5s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
       keyframes: {
         "gentle-bounce": {
@@ -98,6 +109,53 @@ export default {
         "fade-in": {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
+        },
+        "celebration-bounce": {
+          "0%": { transform: "scale(1)" },
+          "30%": { transform: "scale(1.25) rotate(-5deg)" },
+          "60%": { transform: "scale(1.1) rotate(3deg)" },
+          "100%": { transform: "scale(1) rotate(0deg)" },
+        },
+        "heart-beat": {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.1)" },
+        },
+        "wiggle": {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(-3deg)" },
+          "75%": { transform: "rotate(3deg)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-6px)" },
+        },
+        "shimmer": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        "confetti-fall": {
+          "0%": { transform: "translateY(-100vh) rotate(0deg)", opacity: "1" },
+          "100%": { transform: "translateY(100vh) rotate(720deg)", opacity: "0" },
+        },
+        "scale-in": {
+          "0%": { transform: "scale(0)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        "slide-up": {
+          "0%": { transform: "translateY(20px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        "progress-fill": {
+          "0%": { width: "0%" },
+          "100%": { width: "var(--progress-width)" },
+        },
+        "typing": {
+          "0%, 50%": { opacity: "1" },
+          "51%, 100%": { opacity: "0" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { boxShadow: "0 0 5px rgba(168, 85, 247, 0.4)" },
+          "50%": { boxShadow: "0 0 20px rgba(168, 85, 247, 0.8), 0 0 30px rgba(168, 85, 247, 0.6)" },
         },
       },
       transitionTimingFunction: {
