@@ -226,10 +226,12 @@ vercel deploy --prod    # Deploy to production
 ## 🚀 **Deployment & Infrastructure**
 
 ### **Vercel Integration**
-- **Automatic Deployments** - GitHub integration with preview deployments
+- **Project ID**: `prj_tBrJIyBUiaWq2utWl7m1rri2Z333`
+- **Production URL**: https://app.kasama.ai
+- **Automatic Deployments** - GitHub Actions integration with preview deployments
 - **Edge Network** - Global CDN with <100ms latency worldwide
 - **Environment Management** - Staging, preview, and production environments
-- **MCP Automation** - AI-powered deployment through natural language commands
+- **Supabase Backend** - Complete database and authentication integration
 
 ### **CI/CD Pipeline**
 - **Quality Gates** - Automated linting, type checking, and testing
@@ -240,8 +242,8 @@ vercel deploy --prod    # Deploy to production
 ## 📚 **Documentation**
 
 - **[CLAUDE.md](CLAUDE.md)** - Claude Code integration guide
-- **[VERCEL_MCP_INTEGRATION.md](VERCEL_MCP_INTEGRATION.md)** - MCP deployment automation
-- **[.env.example](.env.example)** - Environment variable reference
+- **[GITHUB_DEPLOYMENT_SETUP.md](GITHUB_DEPLOYMENT_SETUP.md)** - GitHub to Vercel deployment automation
+- **[.env.example](.env.example)** - Environment variable reference with Supabase configuration
 
 ## 🤝 **Contributing**
 

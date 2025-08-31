@@ -21,7 +21,7 @@ Navigate to your GitHub repository → Settings → Secrets and Variables → Ac
 
 3. **VERCEL_PROJECT_ID**
    ```
-   prj_zii8CkkLbsfY2vQIopYcukaQVTS7
+   prj_tBrJIyBUiaWq2utWl7m1rri2Z333
    ```
 
 ## Deployment Workflow
@@ -89,7 +89,7 @@ Once configured:
 ## Vercel Project Configuration
 
 Current Vercel project settings:
-- **Project ID**: prj_zii8CkkLbsfY2vQIopYcukaQVTS7
+- **Project ID**: prj_tBrJIyBUiaWq2utWl7m1rri2Z333
 - **Organization**: buehlerdev  
 - **Framework**: Vite
 - **Node Version**: 22.x
