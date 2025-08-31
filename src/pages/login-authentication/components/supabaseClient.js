@@ -8,7 +8,9 @@ if (!supabaseUrl) {
   throw new Error("Missing required environment variable: VITE_SUPABASE_URL");
 }
 if (!supabaseAnonKey) {
-  throw new Error("Missing required environment variable: VITE_SUPABASE_ANON_KEY");
+  throw new Error(
+    "Missing required environment variable: VITE_SUPABASE_ANON_KEY",
+  );
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);

@@ -1,3 +1,5 @@
+import React from "react";
+
 // Performance monitoring utilities
 
 interface PerformanceMetric {
@@ -273,5 +275,4 @@ export function cleanupPerformanceMonitoring() {
   performanceMonitor.cleanup();
 }
 
-// React import for the hook
-import React from "react";
+// React import moved to top of file
