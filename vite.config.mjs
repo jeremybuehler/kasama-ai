@@ -13,8 +13,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-vendor': ['framer-motion', 'recharts'],
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "ui-vendor": ["framer-motion", "recharts"],
         },
       },
     },
@@ -22,11 +22,11 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
-      "components": fileURLToPath(new URL("./src/components", import.meta.url)),
-      "pages": fileURLToPath(new URL("./src/pages", import.meta.url)),
-      "lib": fileURLToPath(new URL("./src/lib", import.meta.url)),
-      "utils": fileURLToPath(new URL("./src/utils", import.meta.url)),
-    }
+      components: fileURLToPath(new URL("./src/components", import.meta.url)),
+      pages: fileURLToPath(new URL("./src/pages", import.meta.url)),
+      lib: fileURLToPath(new URL("./src/lib", import.meta.url)),
+      utils: fileURLToPath(new URL("./src/utils", import.meta.url)),
+    },
   },
   plugins: [tsconfigPaths(), react(), tagger()],
   server: {
@@ -35,6 +35,8 @@ export default defineConfig({
     strictPort: false,
   },
   define: {
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    "process.env.NODE_ENV": JSON.stringify(
+      process.env.NODE_ENV || "development",
+    ),
   },
 });

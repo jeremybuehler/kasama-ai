@@ -2,6 +2,7 @@
   "name": "kasama",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "rocketCritical": {
     "dependencies": [
       "@dhiwise/component-tagger",

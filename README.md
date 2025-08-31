@@ -86,13 +86,13 @@ Empower individuals and couples to build healthier, more fulfilling relationship
 
 Our sophisticated multi-agent AI system provides specialized support for every aspect of your relationship journey:
 
-| Agent | Role | Capabilities |
-|-------|------|-------------|
-| 🧠 **Assessment Analyst** | Psychological Analysis | • Attachment style identification<br/>• Multi-dimensional scoring<br/>• Progress pattern recognition |
-| 🎓 **Learning Coach** | Educational Guidance | • Adaptive curriculum generation<br/>• Learning style optimization<br/>• Skill gap analysis |
-| 📈 **Progress Tracker** | Growth Monitoring | • Milestone detection<br/>• Trend analysis<br/>• Predictive modeling |
-| 💡 **Insight Generator** | Daily Wisdom | • Contextual advice<br/>• Micro-interventions<br/>• Habit formation |
-| 🗣️ **Communication Advisor** | Conflict Resolution | • De-escalation strategies<br/>• Communication templates<br/>• Emotional regulation |
+| Agent                        | Role                   | Capabilities                                                                                         |
+| ---------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------- |
+| 🧠 **Assessment Analyst**    | Psychological Analysis | • Attachment style identification<br/>• Multi-dimensional scoring<br/>• Progress pattern recognition |
+| 🎓 **Learning Coach**        | Educational Guidance   | • Adaptive curriculum generation<br/>• Learning style optimization<br/>• Skill gap analysis          |
+| 📈 **Progress Tracker**      | Growth Monitoring      | • Milestone detection<br/>• Trend analysis<br/>• Predictive modeling                                 |
+| 💡 **Insight Generator**     | Daily Wisdom           | • Contextual advice<br/>• Micro-interventions<br/>• Habit formation                                  |
+| 🗣️ **Communication Advisor** | Conflict Resolution    | • De-escalation strategies<br/>• Communication templates<br/>• Emotional regulation                  |
 
 <br />
 
@@ -164,22 +164,26 @@ Our sophisticated multi-agent AI system provides specialized support for every a
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/jeremybuehler/kasama-app.git
    cd kasama-app
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    ```
-   
+
    Edit `.env` with your credentials:
+
    ```env
    VITE_SUPABASE_URL=your_supabase_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -187,6 +191,7 @@ Our sophisticated multi-agent AI system provides specialized support for every a
    ```
 
 4. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -200,39 +205,43 @@ Our sophisticated multi-agent AI system provides specialized support for every a
 
 ## 📜 Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build locally |
-| `npm run typecheck` | Run TypeScript type checking |
-| `npm run lint` | Run ESLint for code quality |
-| `npm run test` | Run test suite |
-| `npm run test:e2e` | Run end-to-end tests |
+| Command             | Description                              |
+| ------------------- | ---------------------------------------- |
+| `npm run dev`       | Start development server with hot reload |
+| `npm run build`     | Build for production                     |
+| `npm run preview`   | Preview production build locally         |
+| `npm run typecheck` | Run TypeScript type checking             |
+| `npm run lint`      | Run ESLint for code quality              |
+| `npm run test`      | Run test suite                           |
+| `npm run test:e2e`  | Run end-to-end tests                     |
 
 <br />
 
 ## 🌈 Key Features Deep Dive
 
 ### 🔮 Intelligent Assessment System
+
 - **Multi-dimensional analysis** across communication, emotional intelligence, and conflict resolution
 - **Attachment style identification** using validated psychological frameworks
 - **Progress tracking** with statistical confidence levels
 - **Cultural sensitivity** in assessment interpretation
 
 ### 📚 Adaptive Learning Platform
+
 - **Personalized curriculum** based on assessment results
 - **Dynamic difficulty adjustment** to maintain optimal challenge
 - **Multiple learning styles** supported (visual, auditory, kinesthetic)
 - **Microlearning approach** with 5-15 minute daily sessions
 
 ### 🎯 Goal Achievement System
+
 - **SMART goal setting** for relationship objectives
 - **Milestone tracking** with celebration moments
 - **Progress visualization** through interactive charts
 - **Predictive analytics** for goal completion probability
 
 ### 💬 AI Communication Coach
+
 - **Real-time conversation guidance** for difficult discussions
 - **Conflict de-escalation strategies** based on situation
 - **Nonviolent Communication (NVC)** framework integration
@@ -259,14 +268,14 @@ Our sophisticated multi-agent AI system provides specialized support for every a
 
 ## 📊 Performance Metrics
 
-| Metric | Target | Status |
-|--------|--------|--------|
-| Page Load Time | <2s | ✅ Achieved |
-| AI Response Time | <2s | ✅ Achieved |
-| Lighthouse Score | >90 | ✅ 95+ |
-| Accessibility | WCAG 2.1 AA | ✅ Compliant |
-| Uptime | 99.9% | ✅ Monitoring |
-| User Retention | >70% | 📈 Tracking |
+| Metric           | Target      | Status        |
+| ---------------- | ----------- | ------------- |
+| Page Load Time   | <2s         | ✅ Achieved   |
+| AI Response Time | <2s         | ✅ Achieved   |
+| Lighthouse Score | >90         | ✅ 95+        |
+| Accessibility    | WCAG 2.1 AA | ✅ Compliant  |
+| Uptime           | 99.9%       | ✅ Monitoring |
+| User Retention   | >70%        | 📈 Tracking   |
 
 <br />
 
@@ -275,6 +284,7 @@ Our sophisticated multi-agent AI system provides specialized support for every a
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
 ### Development Workflow
+
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)

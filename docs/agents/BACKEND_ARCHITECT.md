@@ -6,12 +6,14 @@
 ## Key Deliverables
 
 ### 🗄️ Database Schema (25+ Tables)
+
 **Location**: `/supabase/migrations/001_initial_schema.sql`
 
 **Core**: Users, assessments, learning, AI insights, analytics, professional platform  
 **Features**: Enums, JSONB fields, constraints, optimized indexes
 
 ### 🛡️ Security Policies (50+ RLS Rules)
+
 **Location**: `/supabase/migrations/002_rls_policies.sql`
 
 **Security**: User isolation, professional consent, admin controls, audit trails  

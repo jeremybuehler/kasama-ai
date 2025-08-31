@@ -21,7 +21,7 @@ This survey should take approximately [X] minutes to complete. All responses are
    - [ ] Option A
    - [ ] Option B
    - [ ] Option C
-   - [ ] Other: ****\_\_\_****
+   - [ ] Other: \***\*\_\_\_\*\***
 
 2. **How long have you been [relevant criteria]?**
    - [ ] Less than 6 months
@@ -43,7 +43,7 @@ This survey should take approximately [X] minutes to complete. All responses are
    - [ ] Tool A
    - [ ] Tool B
    - [ ] Tool C
-   - [ ] Other: ****\_\_\_****
+   - [ ] Other: \***\*\_\_\_\*\***
    - [ ] None
 
 5. **How satisfied are you with your current [process/tool]?**
@@ -58,7 +58,7 @@ This survey should take approximately [X] minutes to complete. All responses are
    - [ ] Challenge B
    - [ ] Challenge C
    - [ ] Challenge D
-   - [ ] Other: ****\_\_\_****
+   - [ ] Other: \***\*\_\_\_\*\***
 
 ## Section 2: Needs & Preferences
 
@@ -116,14 +116,14 @@ This survey should take approximately [X] minutes to complete. All responses are
     - [ ] Finance
     - [ ] Education
     - [ ] Retail
-    - [ ] Other: ****\_\_\_****
+    - [ ] Other: \***\*\_\_\_\*\***
 
 15. **Which region are you located in?**
     - [ ] North America
     - [ ] Europe
     - [ ] Asia Pacific
     - [ ] Latin America
-    - [ ] Other: ****\_\_\_****
+    - [ ] Other: \***\*\_\_\_\*\***
 
 ## Closing Questions
 
@@ -136,7 +136,7 @@ This survey should take approximately [X] minutes to complete. All responses are
     ***
 
 18. **Would you be interested in participating in follow-up research?**
-    - [ ] Yes (Please provide email: ****\_\_\_****)
+    - [ ] Yes (Please provide email: \***\*\_\_\_\*\***)
     - [ ] No
 
 ## Thank You Message

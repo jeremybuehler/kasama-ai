@@ -3,15 +3,15 @@ name: Security Scan
 on:
   schedule:
     # Run security scans daily at 2 AM UTC
-    - cron: '0 2 * * *'
+    - cron: "0 2 * * *"
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: "18"
 
 jobs:
   # Job 1: Dependency vulnerability audit
@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -34,7 +34,7 @@ jobs:
       - name: Run npm audit
         run: |
           echo "## 🔍 Dependency Vulnerability Audit" >> $GITHUB_STEP_SUMMARY
-          
+
           # Run npm audit and capture output
           if npm audit --audit-level=moderate; then
             echo "✅ No moderate or higher vulnerabilities found" >> $GITHUB_STEP_SUMMARY
@@ -63,7 +63,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript' ]
+        language: ["javascript"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -78,7 +78,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -103,7 +103,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch full history for comprehensive scanning
+          fetch-depth: 0 # Fetch full history for comprehensive scanning
 
       - name: Run TruffleHog OSS
         uses: trufflesecurity/trufflehog@main
@@ -116,7 +116,7 @@ jobs:
       - name: Scan for hardcoded secrets
         run: |
           echo "## 🔐 Secret Scanning Report" >> $GITHUB_STEP_SUMMARY
-          
+
           # Check for common secret patterns
           if grep -r -E "(api[_-]?key|secret|password|token)" --include="*.js" --include="*.ts" --include="*.jsx" --include="*.tsx" src/ | grep -v "placeholder" | grep -v "your-" | grep -v "example"; then
             echo "⚠️ Potential secrets found in source code" >> $GITHUB_STEP_SUMMARY
@@ -140,7 +140,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -151,15 +151,15 @@ jobs:
       - name: Check licenses
         run: |
           echo "## 📜 License Compliance Report" >> $GITHUB_STEP_SUMMARY
-          
+
           # Generate license report
           license-checker --summary > license-summary.txt
-          
+
           echo "### License Summary" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           cat license-summary.txt >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          
+
           # Check for problematic licenses
           if license-checker --excludePackages "$(npm list --depth=0 --json | jq -r '.dependencies | keys[]' | tr '\n' ';')" --failOn "GPL;AGPL;LGPL;UNLICENSED"; then
             echo "✅ No problematic licenses detected" >> $GITHUB_STEP_SUMMARY
@@ -171,7 +171,7 @@ jobs:
   docker-scan:
     name: Docker Security Scan
     runs-on: ubuntu-latest
-    if: false  # Disabled until Docker implementation
+    if: false # Disabled until Docker implementation
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -195,7 +195,7 @@ jobs:
           echo "| CodeQL Analysis | ${{ needs.codeql.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Secret Scanning | ${{ needs.secret-scan.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| License Check | ${{ needs.license-check.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-          
+
           if [[ "${{ needs.dependency-audit.result }}" == "success" && 
                 "${{ needs.codeql.result }}" == "success" && 
                 "${{ needs.secret-scan.result }}" == "success" && 
