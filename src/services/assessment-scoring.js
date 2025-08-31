@@ -189,7 +189,7 @@ class AssessmentScoringService {
     let totalWeight = 0;
 
     Object.entries(categoryScores).forEach(([category, score]) => {
-      const weight = this.getcategoryWeight(category);
+      const weight = this.getCategoryWeight(category);
       weightedSum += score * weight;
       totalWeight += weight;
     });
