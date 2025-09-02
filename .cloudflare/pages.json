@@ -1,0 +1,36 @@
+{
+  "projectName": "kasama-ai",
+  "buildConfig": {
+    "buildCommand": "npm run build",
+    "buildOutputDirectory": "dist",
+    "rootDirectory": "/",
+    "nodeVersion": "18"
+  },
+  "deploymentConfig": {
+    "production": {
+      "compatibilityDate": "2024-01-01",
+      "compatibilityFlags": ["nodejs_compat"],
+      "environmentVariables": {
+        "NODE_ENV": "production",
+        "VITE_APP_ENV": "production",
+        "VITE_ENABLE_ANALYTICS": "true",
+        "VITE_ENABLE_ERROR_TRACKING": "true"
+      }
+    },
+    "preview": {
+      "compatibilityDate": "2024-01-01",
+      "compatibilityFlags": ["nodejs_compat"],
+      "environmentVariables": {
+        "NODE_ENV": "development",
+        "VITE_APP_ENV": "preview",
+        "VITE_ENABLE_ANALYTICS": "false",
+        "VITE_ENABLE_ERROR_TRACKING": "true"
+      }
+    }
+  },
+  "functions": {
+    "directory": "functions",
+    "include": ["api/*"],
+    "exclude": ["api/_*"]
+  }
+}
