@@ -7,9 +7,9 @@
  * go-live process with validation, monitoring, and rollback capabilities.
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
 
 console.log('🚀 Production Launch Orchestrator');
 console.log('==================================');
@@ -270,7 +270,7 @@ async function executeDeployment() {
   }
   
   // Extract deployment URL from output
-  const urlMatch = deployResult.output?.match(/https:\\/\\/[^\\s]+/);
+  const urlMatch = deployResult.output?.match(/https:\/\/[^\s]+/);
   const deploymentUrl = urlMatch ? urlMatch[0] : null;
   
   if (deploymentUrl) {
@@ -537,7 +537,7 @@ process.on('SIGINT', () => {
 });
 
 // Command line usage
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   if (process.argv.includes('--help') || process.argv.includes('-h')) {
     console.log(`
 Usage: node production-launch.js [options]
