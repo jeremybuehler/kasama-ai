@@ -94,9 +94,9 @@ RouteErrorFallback.displayName = 'RouteErrorFallback';
 // Route component factory for consistent error handling
 const createProtectedRoute = (
   Component: React.LazyExoticComponent<React.ComponentType<any>>,
-  layout: 'auth' | 'authenticated' = 'authenticated'
+  layout: 'auth' | 'authenticated' | 'fullwidth' = 'authenticated'
 ) => {
-  const Layout = layout === 'auth' ? AuthLayout : AuthenticatedLayout;
+  const Layout = layout === 'auth' ? AuthLayout : layout === 'fullwidth' ? React.Fragment : AuthenticatedLayout;
   
   return (
     <Layout>
@@ -131,7 +131,7 @@ function App() {
             <Route element={<ProtectedRoute requireAuth={false} />}>
               <Route
                 path="/"
-                element={createProtectedRoute(Landing, 'auth')}
+                element={createProtectedRoute(Landing, 'fullwidth')}
               />
               <Route
                 path="/login"

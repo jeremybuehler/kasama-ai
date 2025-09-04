@@ -5,6 +5,7 @@ import { ArrowRight, Heart, Shield, Zap, Users, CheckCircle, Menu, X } from 'luc
 
 const Landing: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -360,7 +361,20 @@ const Landing: React.FC = () => {
         <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
             <div className="sm:col-span-2 lg:col-span-2 text-center sm:text-left">
-              <KasamaLogo width={120} className="mb-3 sm:mb-4 brightness-0 invert mx-auto sm:mx-0 sm:w-[160px]" />
+              <div className="mb-3 sm:mb-4">
+                <div className="relative">
+                  <KasamaLogo 
+                    width={120} 
+                    className="mx-auto sm:mx-0 sm:w-[160px] object-contain" 
+                    alt="Kasama AI - Building stronger relationships"
+                    style={{
+                      filter: 'brightness(0) invert(1)',
+                      opacity: '0.9',
+                      transition: 'all 0.2s ease',
+                    }}
+                  />
+                </div>
+              </div>
               <p className="text-gray-400 text-sm sm:text-base max-w-md mx-auto sm:mx-0">
                 Your AI-powered companion for building stronger, healthier relationships 
                 through personalized insights and guided growth.
