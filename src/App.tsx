@@ -26,6 +26,7 @@ const RelationshipAssessment = lazy(
 );
 const WelcomeOnboarding = lazy(() => import("./pages/welcome-onboarding"));
 const LogoTest = lazy(() => import("./pages/LogoTest"));
+const Landing = lazy(() => import("./pages/Landing"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Create optimized React Query client with elite caching
@@ -126,8 +127,12 @@ function App() {
           <ScrollToTop />
 
           <Routes>
-            {/* Public Auth Routes - Optimized for fast loading */}
+            {/* Public Routes - Optimized for fast loading */}
             <Route element={<ProtectedRoute requireAuth={false} />}>
+              <Route
+                path="/"
+                element={createProtectedRoute(Landing, 'auth')}
+              />
               <Route
                 path="/login"
                 element={createProtectedRoute(LoginPage, 'auth')}
@@ -171,8 +176,7 @@ function App() {
             </Route>
 
             {/* Smart redirects for SEO and UX */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/home" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/home" element={<Navigate to="/" replace />} />
             <Route path="/dashboard-home" element={<Navigate to="/dashboard" replace />} />
             <Route path="/profile-settings" element={<Navigate to="/profile" replace />} />
             <Route path="/progress-tracking" element={<Navigate to="/progress" replace />} />

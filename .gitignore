@@ -25,3 +25,4 @@ Thumbs.db
 
 # Other
 .output.txt
+.env.production
