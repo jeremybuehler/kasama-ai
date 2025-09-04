@@ -1,12 +1,15 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
-import tagger from "@dhiwise/component-tagger";
 import { fileURLToPath, URL } from "node:url";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  build: {
+export default defineConfig(({ mode }) => {
+  const isProd = mode === 'production';
+  
+  return {
+    mode: isProd ? 'production' : 'development',
+    build: {
     outDir: "dist",
     sourcemap: true,
     chunkSizeWarningLimit: 2000,
@@ -28,7 +31,14 @@ export default defineConfig({
       utils: fileURLToPath(new URL("./src/utils", import.meta.url)),
     },
   },
-  plugins: [tsconfigPaths(), react(), tagger()],
+  plugins: [
+    tsconfigPaths(),
+    react({
+      jsxRuntime: 'automatic',
+      jsxImportSource: 'react',
+      fastRefresh: mode !== 'production',
+    })
+  ],
   server: {
     port: 5173,
     host: true,
@@ -40,4 +50,10 @@ export default defineConfig({
     ),
     "__DEV__": process.env.NODE_ENV !== "production",
   },
+  esbuild: {
+    jsx: 'automatic',
+    jsxImportSource: 'react',
+    jsxDev: mode !== 'production',
+  },
+  };
 });

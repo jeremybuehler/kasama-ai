@@ -1,0 +1,30 @@
+/* Kasama Brand Colors */
+:root {
+  /* Primary Colors */
+  --kasama-rose: #E6B2BA;
+  --kasama-rose-rgb: 230, 178, 186;
+  --kasama-purple: #7E55B1;
+  --kasama-purple-rgb: 126, 85, 177;
+  
+  /* Secondary Colors */
+  --supportive-peach: #FAD0C4;
+  --supportive-peach-rgb: 250, 208, 196;
+  --deep-plum: #5D3587;
+  --deep-plum-rgb: 93, 53, 135;
+  
+  /* Neutral Colors */
+  --clarity-white: #FFFFFF;
+  --clarity-white-rgb: 255, 255, 255;
+  --trustworthy-gray: #4A4A4A;
+  --trustworthy-gray-rgb: 74, 74, 74;
+  
+  /* Gradients */
+  --kasama-gradient: linear-gradient(135deg, var(--kasama-rose) 0%, var(--kasama-purple) 100%);
+  --kasama-gradient-soft: linear-gradient(135deg, var(--supportive-peach) 0%, var(--kasama-rose) 100%);
+  --kasama-gradient-dark: linear-gradient(135deg, var(--kasama-purple) 0%, var(--deep-plum) 100%);
+  
+  /* Shadows with brand colors */
+  --kasama-shadow-sm: 0 1px 2px 0 rgba(126, 85, 177, 0.05);
+  --kasama-shadow: 0 4px 6px -1px rgba(126, 85, 177, 0.1), 0 2px 4px -1px rgba(126, 85, 177, 0.06);
+  --kasama-shadow-lg: 0 10px 15px -3px rgba(126, 85, 177, 0.1), 0 4px 6px -2px rgba(126, 85, 177, 0.05);
+}

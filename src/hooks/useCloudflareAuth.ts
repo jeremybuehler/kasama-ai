@@ -11,7 +11,7 @@ import { User } from "../lib/types";
 
 /**
  * Enhanced auth hook that integrates Cloudflare Access with existing app state
- * This replaces the old Supabase auth with Cloudflare Access authentication
+ * This replaces the old useAuth hook with Cloudflare Access authentication
  */
 export function useAuth() {
   const navigate = useNavigate();
@@ -196,7 +196,7 @@ export function useAuth() {
   const redirectIfAuthenticated = useCallback(
     (redirectTo: string = "/dashboard") => {
       if (!isLoading && isAuthenticated) {
-        const from = (location.state as any)?.from || redirectTo;
+        const from = location.state?.from || redirectTo;
         navigate(from, { replace: true });
         return true;
       }
@@ -222,7 +222,7 @@ export function useAuth() {
     isAuthenticated,
     loading: isLoading,
 
-    // Methods (new API)
+    // Methods
     login,
     signup,
     logout,
@@ -239,7 +239,7 @@ export function useAuth() {
     requireAuth,
     redirectIfAuthenticated,
 
-    // Loading states for individual operations
+    // Loading states
     loginLoading: cfIsLoading,
     signupLoading: false,
     logoutLoading: false,

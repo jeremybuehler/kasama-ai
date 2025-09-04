@@ -20,17 +20,17 @@ const WelcomeHeader = ({ userName = "User", onProfileClick }) => {
   };
 
   return (
-    <div className="bg-gradient-primary p-6 rounded-xl text-white mb-6">
+    <div className="bg-kasama-gradient p-6 rounded-xl text-white mb-6 shadow-lg">
       <div className="flex items-center justify-between">
         <div className="flex-1">
-          <h1 className="text-2xl font-semibold mb-1">
+          <h1 className="text-2xl font-light mb-1">
             {getTimeBasedGreeting()}, {userName}!
           </h1>
-          <p className="text-white/80 text-sm">{getMotivationalMessage()}</p>
+          <p className="text-white/90 text-sm font-light">{getMotivationalMessage()}</p>
         </div>
         <button
           onClick={onProfileClick}
-          className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-gentle"
+          className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transform hover:scale-105 transition-all duration-200"
         >
           <Icon name="User" size={20} className="text-white" />
         </button>

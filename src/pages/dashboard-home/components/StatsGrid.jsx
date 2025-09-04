@@ -13,8 +13,8 @@ const StatsGrid = ({ stats, onStatClick }) => {
       change: "+0.3",
       changeType: "positive",
       icon: "TrendingUp",
-      color: "text-success",
-      bgColor: "bg-success/10",
+      color: "text-kasama-purple",
+      bgColor: "bg-kasama-purple/10",
     },
     {
       id: "weekly",
@@ -24,8 +24,8 @@ const StatsGrid = ({ stats, onStatClick }) => {
       change: "+12%",
       changeType: "positive",
       icon: "Calendar",
-      color: "text-primary",
-      bgColor: "bg-primary/10",
+      color: "text-kasama-rose",
+      bgColor: "bg-kasama-rose/10",
     },
     {
       id: "streak",
@@ -35,8 +35,8 @@ const StatsGrid = ({ stats, onStatClick }) => {
       change: "Personal best!",
       changeType: "neutral",
       icon: "Flame",
-      color: "text-warning",
-      bgColor: "bg-warning/10",
+      color: "text-kasama-peach",
+      bgColor: "bg-kasama-peach/10",
     },
     {
       id: "milestone",
@@ -46,8 +46,8 @@ const StatsGrid = ({ stats, onStatClick }) => {
       change: "Communication Expert",
       changeType: "neutral",
       icon: "Target",
-      color: "text-accent",
-      bgColor: "bg-accent/10",
+      color: "text-kasama-plum",
+      bgColor: "bg-kasama-plum/10",
     },
   ];
 

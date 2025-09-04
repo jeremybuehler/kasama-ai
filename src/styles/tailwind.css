@@ -1,40 +1,41 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap");
+@import "./brand-colors.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Core Colors */
-    --color-background: #fdf2f8; /* rose-50 */
-    --color-foreground: #1f2937; /* gray-800 */
-    --color-border: #e5e7eb; /* gray-200 */
+    /* Core Colors - Kasama Brand */
+    --color-background: #ffffff; /* Pure white */
+    --color-foreground: #4A4A4A; /* Trustworthy Gray */
+    --color-border: #E6B2BA; /* Kasama Rose, lighter */
     --color-input: #ffffff; /* white */
-    --color-ring: #e879f9; /* fuchsia-400 */
+    --color-ring: #7E55B1; /* Kasama Purple */
 
     /* Card Colors */
     --color-card: #ffffff; /* white */
-    --color-card-foreground: #1f2937; /* gray-800 */
+    --color-card-foreground: #4A4A4A; /* Trustworthy Gray */
 
     /* Popover Colors */
     --color-popover: #ffffff; /* white */
-    --color-popover-foreground: #1f2937; /* gray-800 */
+    --color-popover-foreground: #4A4A4A; /* Trustworthy Gray */
 
     /* Muted Colors */
-    --color-muted: #f9fafb; /* gray-50 */
+    --color-muted: #F9F5F3; /* Very light warm gray */
     --color-muted-foreground: #6b7280; /* gray-500 */
 
     /* Primary Colors */
-    --color-primary: #e879f9; /* fuchsia-400 */
+    --color-primary: #7E55B1; /* Kasama Purple */
     --color-primary-foreground: #ffffff; /* white */
 
     /* Secondary Colors */
-    --color-secondary: #fb7185; /* rose-400 */
-    --color-secondary-foreground: #ffffff; /* white */
+    --color-secondary: #E6B2BA; /* Kasama Rose */
+    --color-secondary-foreground: #4A4A4A; /* Trustworthy Gray */
 
     /* Accent Colors */
-    --color-accent: #a855f7; /* purple-500 */
+    --color-accent: #5D3587; /* Deep Plum */
     --color-accent-foreground: #ffffff; /* white */
 
     /* Success Colors */
@@ -76,13 +77,21 @@
 }
 
 @layer components {
-  /* Gradient Backgrounds */
+  /* Kasama Gradient Backgrounds */
   .bg-gradient-primary {
-    background: linear-gradient(135deg, #fb7185 0%, #e879f9 100%);
+    background: linear-gradient(135deg, #E6B2BA 0%, #7E55B1 100%);
   }
 
   .bg-gradient-accent {
-    background: linear-gradient(135deg, #e879f9 0%, #a855f7 100%);
+    background: linear-gradient(135deg, #7E55B1 0%, #5D3587 100%);
+  }
+  
+  .bg-gradient-soft {
+    background: linear-gradient(135deg, #FAD0C4 0%, #E6B2BA 100%);
+  }
+  
+  .bg-gradient-kasama {
+    background: linear-gradient(135deg, #E6B2BA 0%, #7E55B1 100%);
   }
 
   /* Subtle Shadows */

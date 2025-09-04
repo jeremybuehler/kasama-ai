@@ -8,6 +8,10 @@
  * critical configuration is missing.
  */
 
+// Load environment variables from .env file
+import dotenv from 'dotenv';
+dotenv.config();
+
 console.log('🔍 Validating environment variables...');
 
 // Define required environment variables for production

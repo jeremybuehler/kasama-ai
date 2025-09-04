@@ -16,7 +16,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   requireAuth = true,
   fallback,
 }) => {
-  const { user, loading } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
   const location = useLocation();
 
   // Show loading spinner while checking authentication
@@ -27,14 +27,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+        <div className="text-center">
+          <LoadingSpinner size="lg" />
+          <p className="mt-4 text-gray-600">Checking authentication...</p>
+        </div>
       </div>
     );
   }
 
   // Check authentication requirement
-  const isAuthenticated = !!user;
-
   if (requireAuth && !isAuthenticated) {
     // Redirect to login with return path
     return (

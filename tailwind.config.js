@@ -7,6 +7,21 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Kasama Brand Colors
+        kasama: {
+          rose: '#E6B2BA',
+          purple: '#7E55B1',
+          peach: '#FAD0C4',
+          plum: '#5D3587',
+        },
+        brand: {
+          primary: '#7E55B1', // Kasama Purple
+          secondary: '#E6B2BA', // Kasama Rose
+          accent: '#FAD0C4', // Supportive Peach
+          dark: '#5D3587', // Deep Plum
+          text: '#4A4A4A', // Trustworthy Gray
+        },
+        // Keep existing color system
         border: "var(--color-border)", // gray-200
         input: "var(--color-input)", // white
         ring: "var(--color-ring)", // fuchsia-400
@@ -83,6 +98,12 @@ export default {
         soft: "0 1px 3px rgba(0, 0, 0, 0.1)",
         medium: "0 4px 12px rgba(0, 0, 0, 0.1)",
         large: "0 8px 24px rgba(0, 0, 0, 0.1)",
+      },
+      backgroundImage: {
+        'kasama-gradient': 'linear-gradient(135deg, #E6B2BA 0%, #7E55B1 100%)',
+        'kasama-gradient-soft': 'linear-gradient(135deg, #FAD0C4 0%, #E6B2BA 100%)',
+        'kasama-gradient-dark': 'linear-gradient(135deg, #7E55B1 0%, #5D3587 100%)',
+        'kasama-gradient-radial': 'radial-gradient(circle at top left, #FAD0C4 0%, #E6B2BA 40%, #7E55B1 100%)',
       },
       animation: {
         "gentle-bounce": "gentle-bounce 0.3s cubic-bezier(0.4, 0, 0.2, 1)",

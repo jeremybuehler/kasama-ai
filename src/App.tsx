@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // Enhanced imports for elite performance
 import { createOptimizedQueryClient } from "./lib/cache";
+import { applyKasamaFavicon } from "./utils/favicon";
 import { ErrorBoundary } from "./components/ui/ErrorBoundary";
 import { ToastContainer } from "./components/ui/Toast";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -14,9 +15,8 @@ import LoadingSpinner, {
 import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy-loaded pages for optimal code splitting
-const LoginForm = lazy(() => import("./components/auth/Login"));
-const SignupForm = lazy(() => import("./components/auth/Signup"));
-const PasswordResetForm = lazy(() => import("./components/auth/PasswordReset"));
+const LoginPage = lazy(() => import("./pages/Login"));
+const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const DashboardHome = lazy(() => import("./pages/dashboard-home"));
 const ProfileSettings = lazy(() => import("./pages/profile-settings"));
 const ProgressTracking = lazy(() => import("./pages/progress-tracking"));
@@ -25,6 +25,7 @@ const RelationshipAssessment = lazy(
   () => import("./pages/relationship-assessment"),
 );
 const WelcomeOnboarding = lazy(() => import("./pages/welcome-onboarding"));
+const LogoTest = lazy(() => import("./pages/LogoTest"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Create optimized React Query client with elite caching
@@ -108,10 +109,20 @@ const createProtectedRoute = (
 };
 
 function App() {
+  // Apply Kasama branding on mount
+  React.useEffect(() => {
+    applyKasamaFavicon();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <ScrollToTop />
 
           <Routes>
@@ -119,15 +130,11 @@ function App() {
             <Route element={<ProtectedRoute requireAuth={false} />}>
               <Route
                 path="/login"
-                element={createProtectedRoute(LoginForm, 'auth')}
+                element={createProtectedRoute(LoginPage, 'auth')}
               />
               <Route
-                path="/signup"
-                element={createProtectedRoute(SignupForm, 'auth')}
-              />
-              <Route
-                path="/reset-password"
-                element={createProtectedRoute(PasswordResetForm, 'auth')}
+                path="/auth/callback"
+                element={createProtectedRoute(AuthCallback, 'auth')}
               />
             </Route>
 
@@ -156,6 +163,10 @@ function App() {
               <Route
                 path="/onboarding"
                 element={createProtectedRoute(WelcomeOnboarding)}
+              />
+              <Route
+                path="/logo-test"
+                element={createProtectedRoute(LogoTest)}
               />
             </Route>
 
