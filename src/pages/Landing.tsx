@@ -90,53 +90,53 @@ const Landing: React.FC = () => {
       {/* Hero Section */}
       <section className="relative py-12 sm:py-16 md:py-24 lg:py-32 overflow-hidden">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-10">
-          <div className="grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
-            <div className="text-center lg:text-left order-2 lg:order-1">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="text-center lg:text-left order-2 lg:order-1 lg:pr-8">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
                 Build Stronger
                 <span className="bg-gradient-primary bg-clip-text text-transparent block sm:inline"> Relationships</span>
               </h1>
-              <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 lg:mb-10 max-w-2xl mx-auto lg:mx-0">
+              <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
                 Your AI-powered companion for developing healthier communication, deeper connections, 
                 and lasting relationship skills that transform how you connect with others.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link 
                   to="/login"
-                  className="inline-flex items-center justify-center bg-gradient-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
+                  className="inline-flex items-center justify-center bg-gradient-primary text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
                 >
                   Start Your Journey
-                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <button className="inline-flex items-center justify-center border border-gray-300 text-gray-700 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-50 transition-colors">
+                <button className="inline-flex items-center justify-center border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-50 transition-colors">
                   Learn More
                 </button>
               </div>
             </div>
-            <div className="relative order-1 lg:order-2 mt-0 mb-8 lg:mt-0 lg:mb-0">
-              <div className="relative mx-auto max-w-xs sm:max-w-md lg:max-w-lg">
+            <div className="relative order-1 lg:order-2 mb-12 lg:mb-0 flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-sm lg:max-w-md">
                 {/* Decorative background */}
-                <div className="absolute inset-0 bg-gradient-soft rounded-3xl transform rotate-3 opacity-10"></div>
-                <div className="relative bg-white rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 border border-gray-100">
-                  <div className="text-center mb-4 sm:mb-6">
-                    <KasamaLogo width={80} className="mx-auto mb-3 sm:w-[100px] lg:w-[120px] sm:mb-4" />
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Personal Growth Dashboard</h3>
-                    <p className="text-gray-600 text-xs sm:text-sm">Track your relationship development journey</p>
+                <div className="absolute inset-0 bg-gradient-soft rounded-3xl transform rotate-2 opacity-10"></div>
+                <div className="relative bg-white rounded-3xl shadow-2xl p-6 lg:p-8 border border-gray-100">
+                  <div className="text-center mb-6">
+                    <KasamaLogo width={100} className="mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Personal Growth Dashboard</h3>
+                    <p className="text-gray-600 text-sm">Track your relationship development journey</p>
                   </div>
                   
                   {/* Mock dashboard elements */}
-                  <div className="space-y-3 sm:space-y-4">
-                    <div className="flex items-center justify-between p-2 sm:p-3 bg-gradient-soft rounded-lg">
-                      <span className="text-xs sm:text-sm font-medium text-gray-700">Communication Skills</span>
-                      <span className="text-xs sm:text-sm font-bold text-purple-600">85%</span>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-3 bg-gradient-soft rounded-lg">
+                      <span className="text-sm font-medium text-gray-700">Communication Skills</span>
+                      <span className="text-sm font-bold text-purple-600">85%</span>
                     </div>
-                    <div className="flex items-center justify-between p-2 sm:p-3 bg-green-50 rounded-lg">
-                      <span className="text-xs sm:text-sm font-medium text-gray-700">Active Listening</span>
-                      <span className="text-xs sm:text-sm font-bold text-green-600">92%</span>
+                    <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                      <span className="text-sm font-medium text-gray-700">Active Listening</span>
+                      <span className="text-sm font-bold text-green-600">92%</span>
                     </div>
-                    <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
-                      <span className="text-xs sm:text-sm font-medium text-gray-700">Emotional Intelligence</span>
-                      <span className="text-xs sm:text-sm font-bold text-blue-600">78%</span>
+                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                      <span className="text-sm font-medium text-gray-700">Emotional Intelligence</span>
+                      <span className="text-sm font-bold text-blue-600">78%</span>
                     </div>
                   </div>
                 </div>
@@ -159,63 +159,63 @@ const Landing: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-14">
-            <div className="text-center p-4 sm:p-0">
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-primary rounded-2xl mb-4 sm:mb-6">
-                <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+            <div className="text-center p-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-2xl mb-6">
+                <Heart className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Personalized Insights</h3>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Personalized Insights</h3>
+              <p className="text-gray-600 leading-relaxed">
                 Receive AI-powered recommendations tailored to your unique relationship patterns and growth areas.
               </p>
             </div>
 
-            <div className="text-center p-4 sm:p-0">
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-accent rounded-2xl mb-4 sm:mb-6">
-                <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+            <div className="text-center p-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-accent rounded-2xl mb-6">
+                <Zap className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Daily Practices</h3>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Daily Practices</h3>
+              <p className="text-gray-600 leading-relaxed">
                 Build healthy habits with guided exercises, mindful check-ins, and skill-building activities.
               </p>
             </div>
 
-            <div className="text-center p-4 sm:p-0">
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-2xl mb-4 sm:mb-6">
-                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+            <div className="text-center p-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-500 rounded-2xl mb-6">
+                <Users className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Relationship Mapping</h3>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Relationship Mapping</h3>
+              <p className="text-gray-600 leading-relaxed">
                 Understand your communication styles and learn how to connect more effectively with others.
               </p>
             </div>
 
-            <div className="text-center p-4 sm:p-0">
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-green-500 rounded-2xl mb-4 sm:mb-6">
-                <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+            <div className="text-center p-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500 rounded-2xl mb-6">
+                <Shield className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Progress Tracking</h3>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Progress Tracking</h3>
+              <p className="text-gray-600 leading-relaxed">
                 Monitor your growth with detailed analytics and celebrate milestones in your relationship journey.
               </p>
             </div>
 
-            <div className="text-center p-4 sm:p-0">
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-orange-500 rounded-2xl mb-4 sm:mb-6">
-                <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+            <div className="text-center p-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500 rounded-2xl mb-6">
+                <CheckCircle className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Goal Setting</h3>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Goal Setting</h3>
+              <p className="text-gray-600 leading-relaxed">
                 Set meaningful relationship goals and receive guidance to achieve them step by step.
               </p>
             </div>
 
-            <div className="text-center p-4 sm:p-0">
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-2xl mb-4 sm:mb-6">
-                <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+            <div className="text-center p-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-pink-500 rounded-2xl mb-6">
+                <Heart className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Mindful Connection</h3>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Mindful Connection</h3>
+              <p className="text-gray-600 leading-relaxed">
                 Learn to be present in your relationships with mindfulness techniques and emotional awareness tools.
               </p>
             </div>
@@ -236,33 +236,33 @@ const Landing: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-            <div className="text-center p-4 sm:p-0">
-              <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gradient-primary rounded-full text-white font-bold text-lg sm:text-xl mb-4 sm:mb-6">
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+            <div className="text-center p-6">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-primary rounded-full text-white font-bold text-xl mb-6">
                 1
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Assessment</h3>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Assessment</h3>
+              <p className="text-gray-600 leading-relaxed">
                 Complete a comprehensive relationship assessment to understand your current patterns and growth opportunities.
               </p>
             </div>
 
-            <div className="text-center p-4 sm:p-0">
-              <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gradient-accent rounded-full text-white font-bold text-lg sm:text-xl mb-4 sm:mb-6">
+            <div className="text-center p-6">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-accent rounded-full text-white font-bold text-xl mb-6">
                 2
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Personalized Plan</h3>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Personalized Plan</h3>
+              <p className="text-gray-600 leading-relaxed">
                 Receive a customized development plan with daily practices, insights, and goals tailored to your needs.
               </p>
             </div>
 
-            <div className="text-center p-4 sm:p-0">
-              <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-purple-500 rounded-full text-white font-bold text-lg sm:text-xl mb-4 sm:mb-6">
+            <div className="text-center p-6">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-purple-500 rounded-full text-white font-bold text-xl mb-6">
                 3
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Growth & Insights</h3>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Growth & Insights</h3>
+              <p className="text-gray-600 leading-relaxed">
                 Track your progress, practice new skills, and receive ongoing AI-powered insights to accelerate your growth.
               </p>
             </div>
