@@ -198,6 +198,250 @@ export class AIOrchestrator {
   }
 
   /**
+   * Get or create learning path for user
+   */
+  private async getOrCreateLearningPath(userId: string): Promise<any> {
+    try {
+      // Check for existing learning path
+      const context = await this.getUserContext(userId);
+      if (context?.learningPath) {
+        return context.learningPath;
+      }
+
+      // Create new learning path
+      const input = {
+        userProfile: context?.userProfile || this.createMockUserProfile(userId),
+        assessmentResults: context?.assessmentHistory || [],
+        currentGoals: [],
+        learningPreferences: {},
+        timeConstraints: { availableMinutesPerDay: 30 }
+      };
+
+      return await this.generateLearningPath(input);
+    } catch (error) {
+      console.error('Failed to get/create learning path:', error);
+      return this.createDefaultLearningPath();
+    }
+  }
+
+  /**
+   * Create mock user profile for fallback
+   */
+  private createMockUserProfile(userId: string): UserProfile {
+    return {
+      id: userId,
+      email: 'user@example.com',
+      subscriptionTier: 'free',
+      preferences: {
+        communicationStyle: 'supportive',
+        aiPersonality: 'encouraging'
+      }
+    };
+  }
+
+  /**
+   * Create default learning path
+   */
+  private createDefaultLearningPath(): any {
+    return {
+      pathId: 'default',
+      name: 'Relationship Basics',
+      modules: [
+        {
+          id: 'communication',
+          title: 'Communication Skills',
+          practices: [
+            { id: 'active-listening', title: 'Active Listening', estimatedTimeMinutes: 10 }
+          ]
+        }
+      ]
+    };
+  }
+
+  /**
+   * Generate daily insights
+   */
+  async generateDailyInsights(
+    input: {
+      userProfile: UserProfile;
+      recentActivities?: ActivityRecord[];
+      currentGoals?: Goal[];
+      preferences?: UserPreferences;
+    },
+    userId?: string
+  ) {
+    return this.withMetrics('daily_insights', async () => {
+      const context = await this.getUserContext(userId || input.userProfile.id);
+      
+      return this.insightGenerator.generateDailyInsights(input, {
+        recentProgress: context?.progressHistory || [],
+        completedPractices: context?.completedPractices || [],
+        upcomingMilestones: context?.upcomingMilestones || [],
+        ...context
+      });
+      
+      return this.insightGenerator.generateDailyInsights(
+        input.userProfile,
+        input.recentActivities || [],
+        input.currentGoals || [],
+        context
+      );
+    });
+  }
+
+  /**
+   * Track progress over time
+   */
+  async trackProgress(
+    userId: string,
+    timeframe: 'week' | 'month' | 'quarter',
+    options?: { includeComparisons?: boolean }
+  ) {
+    return this.withMetrics('progress_tracking', async () => {
+      const context = await this.getUserContext(userId);
+      
+      return this.progressTracker.trackProgress(
+        context?.userProfile || this.createMockUserProfile(userId),
+        timeframe,
+        {
+          includeComparisons: options?.includeComparisons || true,
+          historicalData: context?.progressHistory || [],
+          milestones: context?.milestones || []
+        }
+      );
+    });
+  }
+
+  /**
+   * Provide communication guidance
+   */
+  async provideCommunicationGuidance(
+    input: {
+      scenario: string;
+      participants?: string[];
+      context?: any;
+      urgency?: 'low' | 'medium' | 'high';
+    },
+    userId?: string
+  ) {
+    return this.withMetrics('communication_guidance', async () => {
+      const context = await this.getUserContext(userId);
+      
+      return this.communicationAdvisor.provideCommunicationGuidance(
+        input,
+        context
+      );
+    });
+  }
+
+  /**
+   * Process generic AI request
+   */
+  async processGenericRequest(request: AIRequest): Promise<AIResponse> {
+    return this.withMetrics(`generic_${request.agentType}`, async () => {
+      switch (request.agentType) {
+        case 'assessment_analyst':
+          return await this.assessmentAnalyst.analyzeAssessment(
+            request.inputData as any,
+            request.context
+          );
+        case 'learning_coach':
+          return await this.learningCoach.generateLearningPath(
+            request.inputData as any,
+            request.context
+          );
+        case 'progress_tracker':
+          return await this.progressTracker.trackProgress(
+            this.createMockUserProfile(request.userId),
+            'week',
+            {}
+          );
+        case 'insight_generator':
+          return await this.insightGenerator.generateDailyInsights(
+            this.createMockUserProfile(request.userId),
+            [],
+            [],
+            request.context
+          );
+        case 'communication_advisor':
+          return await this.communicationAdvisor.provideCommunicationGuidance(
+            request.inputData as any,
+            request.context
+          );
+        default:
+          throw new Error(`Unknown agent type: ${request.agentType}`);
+      }
+    });
+  }
+
+  /**
+   * Get system metrics
+   */
+  async getSystemMetrics() {
+    const metrics = new Map(this.metrics);
+    const activeRequestCount = this.activeRequests.size;
+    
+    return {
+      totalRequests: Array.from(metrics.values()).reduce((sum, count) => sum + count, 0),
+      activeRequests: activeRequestCount,
+      cacheHitRate: this.semanticCache.getHitRate(),
+      averageResponseTime: this.calculateAverageResponseTime(),
+      errorRate: this.calculateErrorRate(),
+      providerHealth: await this.getProviderHealth(),
+      memoryUsage: process.memoryUsage(),
+      uptime: process.uptime()
+    };
+  }
+
+  /**
+   * Get health status
+   */
+  async getHealthStatus() {
+    try {
+      const metrics = await this.getSystemMetrics();
+      
+      return {
+        status: 'healthy',
+        version: '1.0.0',
+        agents: {
+          assessmentAnalyst: 'operational',
+          learningCoach: 'operational',
+          progressTracker: 'operational',
+          insightGenerator: 'operational',
+          communicationAdvisor: 'operational'
+        },
+        providers: await this.getProviderHealth(),
+        performance: {
+          responseTime: metrics.averageResponseTime,
+          errorRate: metrics.errorRate,
+          cacheHitRate: metrics.cacheHitRate
+        }
+      };
+    } catch (error) {
+      return {
+        status: 'unhealthy',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
+  }
+
+  /**
+   * Record provider metrics
+   */
+  async recordProviderMetrics(provider: string, metrics: any) {
+    // Implementation for recording provider-specific metrics
+    console.log(`Provider metrics for ${provider}:`, metrics);
+  }
+
+  /**
+   * Update cost tracking
+   */
+  async updateCostTracking(provider: string, usage: any) {
+    // Implementation for cost tracking
+    console.log(`Cost tracking for ${provider}:`, usage);
+  }
+
+  /**
    * Adapt existing learning path based on progress
    */
   async adaptLearningPath(

@@ -9,6 +9,8 @@ import { createOptimizedQueryClient } from "./lib/cache";
 import { applyKasamaFavicon } from "./utils/favicon";
 import { ErrorBoundary } from "./components/ui/ErrorBoundary";
 import { ToastContainer } from "./components/ui/Toast";
+import { aiComponentFactory } from "./lib/ai-component-factory";
+import { apiRouteManager } from "./lib/api-route-manager";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LoadingSpinner, {
   FullScreenLoader,
@@ -111,9 +113,30 @@ const createProtectedRoute = (
 };
 
 function App() {
-  // Apply Kasama branding on mount
+  // AI-powered app initialization
   React.useEffect(() => {
     applyKasamaFavicon();
+    
+    // Initialize AI systems
+    console.log('🤖 Initializing AI-powered systems...');
+    
+    // Preload user context for personalization
+    const initializeAISystems = async () => {
+      try {
+        const userId = localStorage.getItem('user_id');
+        if (userId) {
+          await aiComponentFactory.createAdaptiveDashboard(userId, {
+            communicationStyle: 'supportive',
+            aiPersonality: 'encouraging'
+          });
+          console.log('✅ AI systems initialized');
+        }
+      } catch (error) {
+        console.warn('⚠️ AI initialization failed:', error);
+      }
+    };
+    
+    initializeAISystems();
   }, []);
 
   return (
