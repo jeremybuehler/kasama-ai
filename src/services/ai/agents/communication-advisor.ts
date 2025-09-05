@@ -759,7 +759,7 @@ Focus on:
       recoveryStrategies: [
         'If emotions escalate, suggest taking a break',
         'Return to your shared goals for the relationship',
-        'Ask: "What would help us move forward?"
+        'Ask: "What would help us move forward?"'
       ],
       successIndicators: [
         'Both people feel heard and understood',

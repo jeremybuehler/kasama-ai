@@ -279,13 +279,6 @@ export class AIOrchestrator {
         upcomingMilestones: context?.upcomingMilestones || [],
         ...context
       });
-      
-      return this.insightGenerator.generateDailyInsights(
-        input.userProfile,
-        input.recentActivities || [],
-        input.currentGoals || [],
-        context
-      );
     });
   }
 
@@ -886,36 +879,6 @@ export class AIOrchestrator {
     };
   }
 
-  private createMockUserProfile(userId: string): UserProfile {
-    return {
-      id: userId,
-      email: `user_${userId}@example.com`,
-      subscriptionTier: 'free',
-      preferences: {
-        communicationStyle: 'supportive',
-        notificationFrequency: 'daily',
-        privacyLevel: 'moderate',
-        learningPace: 'moderate',
-        preferredTopics: ['communication', 'self_awareness'],
-        aiPersonality: 'encouraging'
-      }
-    };
-  }
-
-  private async getOrCreateLearningPath(userId: string): Promise<any> {
-    // Mock learning path - in production, fetch from database
-    return {
-      pathId: `path_${userId}`,
-      name: 'Communication Fundamentals',
-      description: 'Build strong communication skills',
-      difficulty: 'beginner',
-      estimatedDurationWeeks: 4,
-      modules: [],
-      prerequisites: [],
-      learningObjectives: ['Improve active listening', 'Express needs clearly'],
-      personalizationScore: 0.8
-    };
-  }
 
   private initializeMetrics(): void {
     if (!this.config.enableMetrics) return;
