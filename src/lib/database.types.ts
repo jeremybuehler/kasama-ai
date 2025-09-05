@@ -312,6 +312,16 @@ export interface Database {
           updated_at: string
           completed: boolean
           progress_percentage: number
+          category: string
+          tags: string[]
+          prerequisites: string[] | null
+          learning_objectives: string[]
+          content_items: Json
+          version: number
+          is_template: boolean
+          template_id: string | null
+          custom_order: number | null
+          metadata: Json
         }
         Insert: {
           id?: string
@@ -325,6 +335,16 @@ export interface Database {
           updated_at?: string
           completed?: boolean
           progress_percentage?: number
+          category?: string
+          tags?: string[]
+          prerequisites?: string[] | null
+          learning_objectives?: string[]
+          content_items?: Json
+          version?: number
+          is_template?: boolean
+          template_id?: string | null
+          custom_order?: number | null
+          metadata?: Json
         }
         Update: {
           id?: string
@@ -338,6 +358,16 @@ export interface Database {
           updated_at?: string
           completed?: boolean
           progress_percentage?: number
+          category?: string
+          tags?: string[]
+          prerequisites?: string[] | null
+          learning_objectives?: string[]
+          content_items?: Json
+          version?: number
+          is_template?: boolean
+          template_id?: string | null
+          custom_order?: number | null
+          metadata?: Json
         }
       }
       notifications: {
@@ -373,6 +403,253 @@ export interface Database {
           created_at?: string
           scheduled_for?: string | null
           metadata?: Json
+        }
+      }
+      content_items: {
+        Row: {
+          id: string
+          title: string
+          description: string
+          content_type: 'lesson' | 'article' | 'video' | 'audio' | 'exercise' | 'quiz' | 'scenario'
+          content_data: Json
+          category: string
+          difficulty: 'beginner' | 'intermediate' | 'advanced'
+          estimated_time_minutes: number
+          tags: string[]
+          prerequisites: string[] | null
+          learning_objectives: string[]
+          version: number
+          status: 'draft' | 'published' | 'archived'
+          created_by: string
+          created_at: string
+          updated_at: string
+          published_at: string | null
+          media_urls: Json
+          interactive_elements: Json
+          metadata: Json
+        }
+        Insert: {
+          id?: string
+          title: string
+          description: string
+          content_type: 'lesson' | 'article' | 'video' | 'audio' | 'exercise' | 'quiz' | 'scenario'
+          content_data: Json
+          category: string
+          difficulty?: 'beginner' | 'intermediate' | 'advanced'
+          estimated_time_minutes?: number
+          tags?: string[]
+          prerequisites?: string[] | null
+          learning_objectives?: string[]
+          version?: number
+          status?: 'draft' | 'published' | 'archived'
+          created_by: string
+          created_at?: string
+          updated_at?: string
+          published_at?: string | null
+          media_urls?: Json
+          interactive_elements?: Json
+          metadata?: Json
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string
+          content_type?: 'lesson' | 'article' | 'video' | 'audio' | 'exercise' | 'quiz' | 'scenario'
+          content_data?: Json
+          category?: string
+          difficulty?: 'beginner' | 'intermediate' | 'advanced'
+          estimated_time_minutes?: number
+          tags?: string[]
+          prerequisites?: string[] | null
+          learning_objectives?: string[]
+          version?: number
+          status?: 'draft' | 'published' | 'archived'
+          created_by?: string
+          created_at?: string
+          updated_at?: string
+          published_at?: string | null
+          media_urls?: Json
+          interactive_elements?: Json
+          metadata?: Json
+        }
+      }
+      learning_progress: {
+        Row: {
+          id: string
+          user_id: string
+          content_item_id: string
+          learning_path_id: string | null
+          status: 'not_started' | 'in_progress' | 'completed' | 'paused'
+          progress_percentage: number
+          time_spent_seconds: number
+          score: number | null
+          attempts: number
+          last_accessed_at: string
+          completed_at: string | null
+          created_at: string
+          updated_at: string
+          notes: string | null
+          bookmarks: Json
+          interaction_data: Json
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          content_item_id: string
+          learning_path_id?: string | null
+          status?: 'not_started' | 'in_progress' | 'completed' | 'paused'
+          progress_percentage?: number
+          time_spent_seconds?: number
+          score?: number | null
+          attempts?: number
+          last_accessed_at?: string
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+          notes?: string | null
+          bookmarks?: Json
+          interaction_data?: Json
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          content_item_id?: string
+          learning_path_id?: string | null
+          status?: 'not_started' | 'in_progress' | 'completed' | 'paused'
+          progress_percentage?: number
+          time_spent_seconds?: number
+          score?: number | null
+          attempts?: number
+          last_accessed_at?: string
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+          notes?: string | null
+          bookmarks?: Json
+          interaction_data?: Json
+        }
+      }
+      achievements: {
+        Row: {
+          id: string
+          user_id: string
+          type: 'badge' | 'milestone' | 'streak' | 'mastery' | 'social'
+          name: string
+          description: string
+          icon_url: string | null
+          criteria: Json
+          earned_at: string
+          metadata: Json
+          category: string
+          points: number
+          rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          type: 'badge' | 'milestone' | 'streak' | 'mastery' | 'social'
+          name: string
+          description: string
+          icon_url?: string | null
+          criteria: Json
+          earned_at?: string
+          metadata?: Json
+          category: string
+          points?: number
+          rarity?: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          type?: 'badge' | 'milestone' | 'streak' | 'mastery' | 'social'
+          name?: string
+          description?: string
+          icon_url?: string | null
+          criteria?: Json
+          earned_at?: string
+          metadata?: Json
+          category?: string
+          points?: number
+          rarity?: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'
+        }
+      }
+      content_recommendations: {
+        Row: {
+          id: string
+          user_id: string
+          content_item_id: string
+          recommendation_type: 'ai_generated' | 'similar_users' | 'trending' | 'personalized' | 'prerequisite'
+          confidence_score: number
+          reason: string
+          metadata: Json
+          created_at: string
+          expires_at: string | null
+          clicked: boolean
+          dismissed: boolean
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          content_item_id: string
+          recommendation_type: 'ai_generated' | 'similar_users' | 'trending' | 'personalized' | 'prerequisite'
+          confidence_score: number
+          reason: string
+          metadata?: Json
+          created_at?: string
+          expires_at?: string | null
+          clicked?: boolean
+          dismissed?: boolean
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          content_item_id?: string
+          recommendation_type?: 'ai_generated' | 'similar_users' | 'trending' | 'personalized' | 'prerequisite'
+          confidence_score?: number
+          reason?: string
+          metadata?: Json
+          created_at?: string
+          expires_at?: string | null
+          clicked?: boolean
+          dismissed?: boolean
+        }
+      }
+      content_analytics: {
+        Row: {
+          id: string
+          content_item_id: string
+          user_id: string | null
+          event_type: 'view' | 'start' | 'progress' | 'complete' | 'bookmark' | 'rate' | 'share'
+          event_data: Json
+          session_id: string | null
+          timestamp: string
+          user_agent: string | null
+          referrer: string | null
+          device_info: Json
+        }
+        Insert: {
+          id?: string
+          content_item_id: string
+          user_id?: string | null
+          event_type: 'view' | 'start' | 'progress' | 'complete' | 'bookmark' | 'rate' | 'share'
+          event_data?: Json
+          session_id?: string | null
+          timestamp?: string
+          user_agent?: string | null
+          referrer?: string | null
+          device_info?: Json
+        }
+        Update: {
+          id?: string
+          content_item_id?: string
+          user_id?: string | null
+          event_type?: 'view' | 'start' | 'progress' | 'complete' | 'bookmark' | 'rate' | 'share'
+          event_data?: Json
+          session_id?: string | null
+          timestamp?: string
+          user_agent?: string | null
+          referrer?: string | null
+          device_info?: Json
         }
       }
     }
@@ -415,6 +692,13 @@ export interface Database {
       agent_type: 'assessment_analyst' | 'learning_coach' | 'progress_tracker' | 'insight_generator' | 'communication_advisor'
       notification_type: 'achievement' | 'reminder' | 'insight' | 'system' | 'social'
       priority_level: 'low' | 'medium' | 'high'
+      content_type: 'lesson' | 'article' | 'video' | 'audio' | 'exercise' | 'quiz' | 'scenario'
+      content_status: 'draft' | 'published' | 'archived'
+      progress_status: 'not_started' | 'in_progress' | 'completed' | 'paused'
+      achievement_type: 'badge' | 'milestone' | 'streak' | 'mastery' | 'social'
+      achievement_rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'
+      recommendation_type: 'ai_generated' | 'similar_users' | 'trending' | 'personalized' | 'prerequisite'
+      analytics_event_type: 'view' | 'start' | 'progress' | 'complete' | 'bookmark' | 'rate' | 'share'
     }
     CompositeTypes: {
       [_ in never]: never
