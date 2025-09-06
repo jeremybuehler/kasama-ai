@@ -190,4 +190,14 @@ module.exports = {
       testTimeout: 15000
     }
   ]
+  testEnvironment: 'node',
+  testMatch: [
+    '**/tests/**/*.test.js',
+    '**/tests/**/*.spec.js'
+  ],
+  testTimeout: 30000,
+  verbose: true,
+  maxWorkers: 4,
+  detectOpenHandles: true,
+  forceExit: true
 };

@@ -30,6 +30,33 @@ import {
   CostAnalytics
 } from './types';
 
+// Additional type definitions for orchestrator
+export interface ActivityRecord {
+  id: string;
+  type: string;
+  timestamp: Date;
+  completed: boolean;
+  metadata?: any;
+}
+
+export interface Goal {
+  id: string;
+  title: string;
+  description?: string;
+  targetDate?: Date;
+  progress: number;
+  category: string;
+}
+
+export interface UserPreferences {
+  communicationStyle: 'supportive' | 'analytical' | 'direct' | 'formal';
+  aiPersonality: 'encouraging' | 'analytical' | 'direct' | 'gentle';
+  learningPace: 'slow' | 'moderate' | 'fast';
+  reminderFrequency: 'daily' | 'weekly' | 'as_needed';
+  timezone?: string;
+  language?: string;
+}
+
 export interface OrchestratorConfig {
   enableCaching: boolean;
   enableRateLimiting: boolean;
@@ -924,6 +951,29 @@ export class AIOrchestrator {
 
   private getMetric(key: string): number | undefined {
     return this.metrics.get(key);
+  }
+
+  private calculateAverageResponseTime(): number {
+    const totalTime = this.getMetric('total_response_time') || 0;
+    const totalRequests = this.getMetric('total_requests') || 1;
+    return totalTime / totalRequests;
+  }
+
+  private calculateErrorRate(): number {
+    const failedRequests = this.getMetric('failed_requests') || 0;
+    const totalRequests = this.getMetric('total_requests') || 1;
+    return failedRequests / totalRequests;
+  }
+
+  private async getProviderHealth(): Promise<Record<string, any>> {
+    try {
+      return await this.providerManager.getHealthStatus();
+    } catch (error) {
+      return {
+        status: 'error',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
   }
 
   /**

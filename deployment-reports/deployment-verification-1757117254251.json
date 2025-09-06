@@ -1,0 +1,93 @@
+{
+  "timestamp": "2025-09-06T00:07:33.597Z",
+  "version": "0.1.0",
+  "deployment": null,
+  "tests": [
+    {
+      "name": "Connectivity: /",
+      "status": "pass",
+      "loadTime": 313,
+      "statusCode": 401,
+      "details": "HTTP 401"
+    },
+    {
+      "name": "Connectivity: /login",
+      "status": "pass",
+      "loadTime": 59,
+      "statusCode": 401,
+      "details": "HTTP 401"
+    },
+    {
+      "name": "Connectivity: /auth/callback",
+      "status": "pass",
+      "loadTime": 43,
+      "statusCode": 401,
+      "details": "HTTP 401"
+    },
+    {
+      "name": "Security Header: HSTS",
+      "status": "pass",
+      "details": "Present: max-age=63072000; includeSubDomains; preload"
+    },
+    {
+      "name": "Security Header: CSP",
+      "status": "warn",
+      "details": "Missing header"
+    },
+    {
+      "name": "Security Header: MIME type sniffing protection",
+      "status": "warn",
+      "details": "Missing header"
+    },
+    {
+      "name": "Security Header: Clickjacking protection",
+      "status": "pass",
+      "details": "Present: DENY"
+    },
+    {
+      "name": "Security Header: XSS protection",
+      "status": "warn",
+      "details": "Missing header"
+    },
+    {
+      "name": "HTTPS Enforcement",
+      "status": "pass",
+      "details": "Using HTTPS"
+    },
+    {
+      "name": "Page Load Performance",
+      "status": "pass",
+      "loadTime": 41,
+      "details": "41ms (threshold: 3000ms)"
+    },
+    {
+      "name": "AI Features Configuration",
+      "status": "info",
+      "details": "AI features disabled (expected in development)"
+    },
+    {
+      "name": "Database Health Check",
+      "status": "warn",
+      "statusCode": 401,
+      "details": "Health endpoint not available"
+    },
+    {
+      "name": "Authentication Pages",
+      "status": "fail",
+      "statusCode": 401,
+      "details": "Login page not accessible"
+    },
+    {
+      "name": "Real-time Features",
+      "status": "info",
+      "details": "WebSocket and real-time features testing not implemented yet"
+    }
+  ],
+  "performance": {
+    "totalLoadTime": 41,
+    "thresholdMet": true,
+    "timestamp": "2025-09-06T00:07:34.101Z"
+  },
+  "security": {},
+  "overall": "needs_attention"
+}
