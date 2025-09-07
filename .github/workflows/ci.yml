@@ -26,12 +26,6 @@ jobs:
             app:
               - 'src/**'
               - 'server/**'
-              - 'package.json'
-              - 'tsconfig*.json'
-              - 'vite.config.*'
-              - 'vitest.config.*'
-              - 'eslint.config.js'
-              - 'tailwind.config.*'
   # Job 1: Install dependencies and cache
   install:
     name: Install Dependencies
