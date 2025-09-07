@@ -413,37 +413,6 @@ export class AIOrchestrator {
     };
   }
 
-  /**
-   * Get health status
-   */
-  async getHealthStatus() {
-    try {
-      const metrics = await this.getSystemMetrics();
-      
-      return {
-        status: 'healthy',
-        version: '1.0.0',
-        agents: {
-          assessmentAnalyst: 'operational',
-          learningCoach: 'operational',
-          progressTracker: 'operational',
-          insightGenerator: 'operational',
-          communicationAdvisor: 'operational'
-        },
-        providers: await this.getProviderHealth(),
-        performance: {
-          responseTime: metrics.averageResponseTime,
-          errorRate: metrics.errorRate,
-          cacheHitRate: metrics.cacheHitRate
-        }
-      };
-    } catch (error) {
-      return {
-        status: 'unhealthy',
-        error: error instanceof Error ? error.message : 'Unknown error'
-      };
-    }
-  }
 
   /**
    * Record provider metrics

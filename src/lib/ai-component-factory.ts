@@ -182,7 +182,7 @@ class AIComponentFactory {
     const modulePath = this.getComponentPath(config.name);
     
     try {
-      return await import(modulePath);
+      return await import(/* @vite-ignore */ modulePath);
     } catch (error) {
       console.error(`Failed to load component ${config.name}:`, error);
       // Fallback to default component
