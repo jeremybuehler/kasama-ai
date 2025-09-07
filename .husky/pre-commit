@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Lint-staged for formatting/lint fixes
+npx --no-install lint-staged || exit 1
+
+# Secrets scan on staged files
+bash scripts/secret-scan.sh || exit 1
+
