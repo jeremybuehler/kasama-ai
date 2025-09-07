@@ -1,5 +1,8 @@
 # Kasama AI - AI-Powered Relationship Development Platform
 
+[![CI](https://github.com/jeremybuehler/kasama-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/jeremybuehler/kasama-ai/actions/workflows/ci.yml)
+[![Security Scan](https://github.com/jeremybuehler/kasama-ai/actions/workflows/security.yml/badge.svg)](https://github.com/jeremybuehler/kasama-ai/actions/workflows/security.yml)
+
 ![Kasama AI](https://img.shields.io/badge/Status-Deployment%20Config-orange)
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue)
 ![Build](https://img.shields.io/badge/Build-Passing-success)
