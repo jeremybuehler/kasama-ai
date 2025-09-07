@@ -250,7 +250,7 @@ export class AdvancedErrorBoundary extends Component<Props, State> {
                       </details>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               )}
 
               {/* Error ID for Support */}
