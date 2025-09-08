@@ -6,8 +6,6 @@ on:
     paths:
       - 'src/**'
       - 'server/**'
-      - 'package.json'
-      - 'package-lock.json'
       - 'tsconfig*.json'
       - 'vitest.config.*'
       - 'eslint.config.js'
@@ -16,16 +14,34 @@ on:
     paths:
       - 'src/**'
       - 'server/**'
-      - 'package.json'
-      - 'package-lock.json'
 
 env:
   NODE_VERSION: '18'
 
 jobs:
+  changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    outputs:
+      src_modified: ${{ steps.changed-files.outputs.any_changed }}
+      changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            src/**
+            server/**
+          separator: "\n"
+
   install:
     name: Install
     runs-on: ubuntu-latest
+    needs: changes
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,7 +53,8 @@ jobs:
   typecheck:
     name: TypeScript
     runs-on: ubuntu-latest
-    needs: install
+    needs: [install, changes]
+    if: needs.changes.outputs.src_modified == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -50,7 +67,8 @@ jobs:
   lint:
     name: ESLint
     runs-on: ubuntu-latest
-    needs: install
+    needs: [install, changes]
+    if: needs.changes.outputs.src_modified == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -58,12 +76,30 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
       - run: npm ci
-      - run: npm run lint
+      - name: Run ESLint on changed files
+        run: |
+          CHANGED=$(cat << 'EOF'
+          ${{ needs.changes.outputs.changed_files }}
+          EOF
+          )
+          echo "Changed files:\n$CHANGED"
+          if [ -z "$CHANGED" ]; then
+            echo "No changed files. Skipping lint."
+            exit 0
+          fi
+          # Filter to JS/TS/TSX/JSX only
+          FILES=$(echo "$CHANGED" | grep -E '\\.(ts|tsx|js|jsx)$' || true)
+          if [ -z "$FILES" ]; then
+            echo "No relevant files changed. Skipping lint."
+            exit 0
+          fi
+          npx eslint $FILES
 
   format:
     name: Prettier
     runs-on: ubuntu-latest
-    needs: install
+    needs: [install, changes]
+    if: needs.changes.outputs.src_modified == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -71,12 +107,29 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
       - run: npm ci
-      - run: npx prettier --check "{src,server}/**/*.{ts,tsx,js,jsx,json,css,md}"
+      - name: Prettier check on changed files
+        run: |
+          CHANGED=$(cat << 'EOF'
+          ${{ needs.changes.outputs.changed_files }}
+          EOF
+          )
+          echo "Changed files:\n$CHANGED"
+          if [ -z "$CHANGED" ]; then
+            echo "No changed files. Skipping format check."
+            exit 0
+          fi
+          FILES=$(echo "$CHANGED" | grep -E '\\.(ts|tsx|js|jsx|json|css|md)$' || true)
+          if [ -z "$FILES" ]; then
+            echo "No relevant files changed. Skipping format check."
+            exit 0
+          fi
+          npx prettier --check $FILES
 
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
-    needs: install
+    needs: [install, changes]
+    if: needs.changes.outputs.src_modified == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -90,6 +143,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     needs: [typecheck, lint, format, unit-tests]
+    if: needs.changes.outputs.src_modified == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
