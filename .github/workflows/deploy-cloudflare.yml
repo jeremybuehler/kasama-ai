@@ -1,20 +1,7 @@
-name: Deploy to Cloudflare Pages
+name: Archived - Deploy to Cloudflare Pages (disabled)
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Deployment Environment'
-        required: true
-        default: 'preview'
-        type: choice
-        options:
-          - preview
-          - production
 
 env:
   NODE_VERSION: '18'
@@ -136,33 +123,38 @@ jobs:
           script: |
             const url = '${{ steps.deploy.outputs.url }}';
             const buildId = '${{ needs.build-test.outputs.build-id }}';
+            const pr = context.payload.pull_request || {};
+            const branch = pr.head?.ref || process.env.GITHUB_HEAD_REF || context.ref;
+            const sha = pr.head?.sha || process.env.GITHUB_SHA || '';
+            const shortSha = sha ? sha.substring(0, 8) : '';
+
             const comment = `## 🚀 Preview Deployment Ready!
-            
+
             **Preview URL**: ${url}
             **Build ID**: ${buildId}
             **Status**: ✅ Deployed successfully
-            
+
             ### 📋 Deployment Details
             - **Environment**: Preview
-            - **Branch**: \`${{ github.head_ref }}\`
-            - **Commit**: \`${{ github.event.pull_request.head.sha.substring(0, 8) }}\`
+            - **Branch**: \`${branch}\`
+            - **Commit**: \`${shortSha}\`
             - **Deployed at**: ${new Date().toISOString()}
-            
+
             ### 🧪 Testing Checklist
             - [ ] Visual regression testing
             - [ ] Core functionality verification
             - [ ] Mobile responsiveness
             - [ ] Performance metrics
             - [ ] Console error check
-            
+
             ---
             <sub>🤖 Deployed via Cloudflare Pages</sub>`;
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: comment
+              body: comment,
             });
 
   # Deploy to Cloudflare Pages - Production

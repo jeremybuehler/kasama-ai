@@ -72,6 +72,13 @@ export default [
         afterAll: "readonly",
         React: "readonly",
         vi: "readonly",
+        // Test runners
+        describe: "readonly",
+        it: "readonly",
+        test: "readonly",
+        expect: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
       },
     },
     plugins: {
