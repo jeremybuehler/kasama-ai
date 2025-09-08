@@ -1,10 +1,7 @@
-name: Continuous Integration
+name: Archived - Continuous Integration (disabled)
 
 on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
+  workflow_dispatch:
 
 env:
   NODE_VERSION: "18"

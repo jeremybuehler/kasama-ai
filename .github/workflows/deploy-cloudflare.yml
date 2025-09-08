@@ -1,20 +1,7 @@
-name: Deploy to Cloudflare Pages
+name: Archived - Deploy to Cloudflare Pages (disabled)
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Deployment Environment'
-        required: true
-        default: 'preview'
-        type: choice
-        options:
-          - preview
-          - production
 
 env:
   NODE_VERSION: '18'
